@@ -1,0 +1,185 @@
+ 
+# ==================== IDE & Editor ====================
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ==================== Logs ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==================== Environment Variables ====================
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Spring Boot application properties (sensitive)
+backend/src/main/resources/application-*.yml
+backend/src/main/resources/application-*.properties
+!backend/src/main/resources/application.yml.example
+!backend/src/main/resources/application.properties.example
+
+# ==================== Uploads & Temporary Files ====================
+uploads/
+temp/
+tmp/
+*.tmp
+*.temp
+
+# ==================== Certificates & Keys ====================
+*.pem
+*.key
+*.crt
+*.p12
+*.keystore
+
+# ==================== Database Files ====================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==================== Docker ====================
+.docker/
+docker-compose.override.yml
+
+# ==================== Package Manager Specific ====================
+# npm
+package-lock.json
+npm-debug.log*
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.yarn/install-state.gz
+.yarn/cache
+yarn-error.log
+
+# pnpm
+pnpm-lock.yaml
+
+# ==================== Documentation ====================
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# ==================== Testing ====================
+coverage/
+.nyc_output/
+cypress/screenshots/
+cypress/videos/
+test-results/
+
+# ==================== Frontend (Next.js) Specific ====================
+frontend/.next/
+frontend/out/
+frontend/dist/
+frontend/node_modules/
+frontend/.turbo/
+frontend/.env*.local
+frontend/.env
+
+# Build output
+frontend/build/
+frontend/.cache/
+
+# Dependencies
+frontend/.pnp
+frontend/.pnp.js
+
+# Next.js build cache
+frontend/.next/cache/
+
+# Production
+frontend/.next/standalone/
+frontend/.next/server/
+
+# Debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Typescript
+frontend/*.tsbuildinfo
+
+# ==================== Backend (Spring Boot) Specific ====================
+backend/target/
+backend/.gradle/
+backend/build/
+backend/.settings/
+backend/bin/
+backend/out/
+
+# Maven
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/pom.xml.next
+backend/release.properties
+backend/dependency-reduced-pom.xml
+
+# Gradle
+backend/.gradle/
+backend/build/
+!backend/gradle/wrapper/gradle-wrapper.jar
+
+# Compiled class files
+backend/*.class
+
+# Log file
+backend/*.log
+
+# Package files
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/*.zip
+
+# Virtual machine crash logs
+backend/hs_err_pid*
+
+# ==================== Database Dumps & Backups ====================
+*.dump
+*.backup
+*.bak
+
+# ==================== CI/CD ====================
+.circleci/config.yml.local
+.github/workflows/*.local.yml
+
+# ==================== Misc ====================
+*.secret
+*.token
+*.credentials
+config/local.json
+secrets/
+keys/
