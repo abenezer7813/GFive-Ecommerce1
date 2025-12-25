@@ -1,6 +1,6 @@
 package org.wldu.webservices.services.imp;
 
-import dto.product.ProductRequestDTO;
+import org.wldu.webservices.dto.product.ProductRequestDTO;
 import org.springframework.stereotype.Service;
 import org.wldu.webservices.enities.CategoriesEntity;
 import org.wldu.webservices.enities.Product;

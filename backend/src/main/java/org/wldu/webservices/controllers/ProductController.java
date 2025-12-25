@@ -1,7 +1,7 @@
 package org.wldu.webservices.controllers;
 
-import dto.product.ProductRequestDTO;
-import dto.product.ProductResponseDTO;
+import org.wldu.webservices.dto.product.ProductRequestDTO;
+import org.wldu.webservices.dto.product.ProductResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -2,8 +2,9 @@ package org.wldu.webservices.services.imp;
 
 
 import org.springframework.stereotype.Service;
-import dto.category.*;
 
+import org.wldu.webservices.dto.category.CategoryRequestDto;
+import org.wldu.webservices.dto.category.CategoryResponseDto;
 import org.wldu.webservices.enities.CategoriesEntity;
 import org.wldu.webservices.repositories.CategoryRepository;
 

@@ -3,8 +3,9 @@ package org.wldu.webservices.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import dto.category.*;
 
+import org.wldu.webservices.dto.category.CategoryRequestDto;
+import org.wldu.webservices.dto.category.CategoryResponseDto;
 import org.wldu.webservices.services.imp.CategoryService;
 
 import java.util.List;
