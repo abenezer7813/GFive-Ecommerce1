@@ -1,6 +1,9 @@
 package org.wldu.webservices.controllers;
 
 import dto.product.ProductRequestDTO;
+import dto.product.ProductResponseDTO;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.wldu.webservices.enities.Product;
@@ -18,13 +21,15 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // ✅ ADMIN only
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(new ProductRequestDTO(product));
-    }
+    public ResponseEntity<ProductResponseDTO> createProduct(
+            @RequestBody @Valid ProductRequestDTO request) {
 
+        Product product = productService.createProduct(request);
+        return ResponseEntity.ok(new ProductResponseDTO(product));
+    }
     // ✅ ADMIN only
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

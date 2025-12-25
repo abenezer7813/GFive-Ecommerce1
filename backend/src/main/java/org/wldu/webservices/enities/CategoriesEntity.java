@@ -1,49 +1,56 @@
 package org.wldu.webservices.enities;
 
-
 import jakarta.persistence.*;
-import java.io.Serializable;
+import lombok.*;
+
+import java.util.*;
+
 @Entity
 @Table(name = "categories")
-public class CategoriesEntity implements Serializable {
+
+public class CategoriesEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_id")
-    private long catId;
-    @Column(name = "cat_name", nullable = false)
-    private String catName;
+    private Long id;
 
-    @Column(name = "description")
+    @Column(nullable = false, unique = true)
+    private String name;
+
     private String description;
 
-    public CategoriesEntity() {
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products = new HashSet<>();
+
+    public Long getId() {
+        return id;
     }
 
-    public CategoriesEntity(String catName, String description) {
-        this.catName = catName;
-        this.description = description;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-
-    public long getCatId() {
-        return catId;
+    public String getName() {
+        return name;
     }
 
-    public void setCatId(int catId) {
-        this.catId = catId;
-    }
-
-    public String getCatName() {
-        return catName;
-    }
-
-    public void setCatName(String catName) {
-        this.catName = catName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 }

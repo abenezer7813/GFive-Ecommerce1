@@ -27,7 +27,7 @@ public class Product {
     private String imageUrl;
 
     @ManyToOne
-    private Category category;
+    private CategoriesEntity category;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -41,7 +41,7 @@ public class Product {
     }
 
     public Product(String name, String description, BigDecimal price, int stockQuantity,
-                   String imageUrl, Category category) {
+                   String imageUrl, CategoriesEntity category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -51,7 +51,7 @@ public class Product {
     }
 
     public Product(Long id, String name, String description, BigDecimal price, int stockQuantity,
-                   String imageUrl, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+                   String imageUrl, CategoriesEntity category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -83,8 +83,8 @@ public class Product {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
+    public CategoriesEntity getCategory() { return category; }
+    public void setCategory(CategoriesEntity category) { this.category = category; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
