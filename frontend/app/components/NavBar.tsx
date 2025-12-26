@@ -6,6 +6,7 @@ import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { BsCartCheck } from "react-icons/bs";
 import Search from './Search';
 import { getProducts, Product, categories } from "@/app/product/data";
+import { useCart } from "@/Context/page";
 
 
 
@@ -14,7 +15,11 @@ import { getProducts, Product, categories } from "@/app/product/data";
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-
+  const { cart } = useCart();
+const cartCount = cart.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
 
 
   const [query, setQuery] = useState("");
@@ -95,7 +100,11 @@ const filteredProducts = products.filter(product =>
            {/* Cart */}
 <Link href="/cart" className="relative">
   <BsCartCheck size={23} />
-  
+  {cartCount > 0 && (
+    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1.5 text-xs">
+      {cartCount}
+    </span>
+  )}
 </Link>
 
 

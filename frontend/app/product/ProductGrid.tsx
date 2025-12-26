@@ -1,4 +1,5 @@
 "use client";
+import { useCart } from "@/Context/page";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export default function ProductsGrid({ products }: Props) {
+  const { addToCart } = useCart();
   
 
   return (
@@ -66,7 +68,7 @@ export default function ProductsGrid({ products }: Props) {
             {/* ACTION BUTTONS */}
             <div className="p-4 mt-auto">
               <div className="flex gap-2">
-                <button                  className="flex-1 border border-gray-400 rounded-full py-2 font-semibold hover:bg-gray-100"
+                <button onClick={() => addToCart(product)}                  className="flex-1 border border-gray-400 rounded-full py-2 font-semibold hover:bg-gray-100"
 >
   Add to Cart
 </button>
