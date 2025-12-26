@@ -1,25 +1,37 @@
 'use client'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FaSearch, FaUser, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { BsCartCheck } from "react-icons/bs";
 import Search from './Search';
+import { getProducts, Product, categories } from "@/app/product/data";
 
-// TEMP: replace with real products or props
-const products = [
-  { id: 1, title: "Samsung Galaxy A31", price: 2000, images: ["/1.jpg"] },
-  { id: 2, title: "iPhone 13 Pro", price: 3500, images: ["/2.jpg"] },
-  { id: 3, title: "Dell Laptop", price: 4500, images: ["/3.jpg"] },
-];
+
+
+
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+
+
+
   const [query, setQuery] = useState("");
 
-  const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(query.toLowerCase())
-  );
+const filteredProducts = products.filter(product =>
+  product.title.toLowerCase().includes(query.toLowerCase())
+);
+
+  useEffect(() => {
+  async function loadProducts() {
+    const data = await getProducts(); 
+    setProducts(data);                
+  }
+
+  loadProducts();
+}, []);
+
 
   return (
     <nav className="fixed top-0 left-20 right-20 z-50 flex bg-white shadow-lg rounded-b-2xl">
@@ -46,7 +58,7 @@ const NavBar = () => {
 
               {/* Search Results */}
               {query && (
-                <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl z-50 max-h-80 overflow-y-auto">
+                <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl z-50 max-h-80 ">
                   {filteredProducts.length > 0 ? (
                     filteredProducts.slice(0, 5).map(product => (
                       <Link
@@ -80,12 +92,12 @@ const NavBar = () => {
             </div>
 
             {/* Cart */}
-            <div className='relative'>
-              <BsCartCheck size={23} />
-              <span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1.5 text-xs'>
-                4
-              </span>
-            </div>
+           {/* Cart */}
+<Link href="/cart" className="relative">
+  <BsCartCheck size={23} />
+  
+</Link>
+
 
             {/* User */}
             <FaUser size={20} className="cursor-pointer" />

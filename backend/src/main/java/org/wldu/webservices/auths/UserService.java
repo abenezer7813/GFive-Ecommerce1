@@ -1,13 +1,12 @@
 package org.wldu.webservices.auths;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import org.wldu.webservices.enities.Role;
-import org.wldu.webservices.repositories.*;
+import org.wldu.webservices.repositories.RoleRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.Collections;

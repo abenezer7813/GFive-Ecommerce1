@@ -1,9 +1,10 @@
 package org.wldu.webservices.services.imp;
 
-import dto.product.ProductRequestDTO;
+import org.wldu.webservices.dto.product.ProductRequestDTO;
 import org.springframework.stereotype.Service;
-import org.wldu.webservices.enities.Category;
+import org.wldu.webservices.enities.CategoriesEntity;
 import org.wldu.webservices.enities.Product;
+import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.CategoryRepository;
 import org.wldu.webservices.repositories.ProductRepository;
 
@@ -24,15 +25,15 @@ public class ProductServiceImpl {
     // ✅ ADMIN
     public Product createProduct(ProductRequestDTO productRequest) {
 
-//        Category category = categoryRepository.findById(productRequest.getCategoryId())
-//                .orElseThrow(() -> new RuntimeException("Category not found"));
+        CategoriesEntity category = categoryRepository.findById(productRequest.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
         Product product = new Product();
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());
         product.setPrice(productRequest.getPrice());
         product.setStockQuantity(productRequest.getStockQuantity());
-//product.setCategory(category);
+           product.setCategory(category);
 
         return productRepository.save(product);
     }
@@ -63,6 +64,8 @@ public class ProductServiceImpl {
 
     // ✅ ADMIN
     public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         productRepository.deleteById(id);
     }
 }
