@@ -9,9 +9,10 @@ import org.wldu.webservices.auths.User;
 import org.wldu.webservices.repositories.CartItemRepository;
 import org.wldu.webservices.repositories.CartRepository;
 import org.wldu.webservices.repositories.ProductRepository;
+import org.wldu.webservices.services.contrats.CartService;
 
 @Service  // ✅ SPRING SERVICE
-public class CartServiceImpl {
+public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
