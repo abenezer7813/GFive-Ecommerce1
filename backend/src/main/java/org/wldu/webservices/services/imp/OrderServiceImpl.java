@@ -3,7 +3,10 @@ package org.wldu.webservices.services.imp;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.wldu.webservices.auths.User;
-import org.wldu.webservices.enities.*;
+import org.wldu.webservices.enities.Cart;
+import org.wldu.webservices.enities.CartItem;
+import org.wldu.webservices.enities.OrderEntity;
+import org.wldu.webservices.enities.OrderItemEntity;
 import org.wldu.webservices.repositories.CartRepository;
 import org.wldu.webservices.repositories.OrderRepository;
 

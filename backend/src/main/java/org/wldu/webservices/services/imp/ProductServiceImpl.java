@@ -4,6 +4,7 @@ import org.wldu.webservices.dto.product.ProductRequestDTO;
 import org.springframework.stereotype.Service;
 import org.wldu.webservices.enities.CategoriesEntity;
 import org.wldu.webservices.enities.Product;
+import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.CategoryRepository;
 import org.wldu.webservices.repositories.ProductRepository;
 
@@ -63,6 +64,8 @@ public class ProductServiceImpl {
 
     // ✅ ADMIN
     public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         productRepository.deleteById(id);
     }
 }

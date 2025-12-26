@@ -2,7 +2,6 @@ package org.wldu.webservices.dto.product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.wldu.webservices.enities.Product;
 
 
 import java.math.BigDecimal;

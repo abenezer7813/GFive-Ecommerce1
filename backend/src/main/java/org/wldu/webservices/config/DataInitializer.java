@@ -6,12 +6,10 @@ import org.springframework.stereotype.Component;
 import org.wldu.webservices.auths.User;
 import org.wldu.webservices.auths.UserRepository;
 import org.wldu.webservices.enities.Role;
-import org.wldu.webservices.repositories.*;
+import org.wldu.webservices.repositories.RoleRepository;
 
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class DataInitializer implements CommandLineRunner {

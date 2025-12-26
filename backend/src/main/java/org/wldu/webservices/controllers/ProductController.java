@@ -20,6 +20,22 @@ public class ProductController {
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
+    private ProductResponseDTO mapToResponse(Product product) {
+
+        ProductResponseDTO dto = new ProductResponseDTO();
+
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        dto.setStockQuantity(product.getStockQuantity());
+        dto.setImageUrl(product.getImageUrl());
+
+        dto.setCategoryId(product.getCategory().getId());
+        dto.setCategoryName(product.getCategory().getName());
+
+        return dto;
+    }
 
 
     @PostMapping
@@ -28,20 +44,32 @@ public class ProductController {
             @RequestBody @Valid ProductRequestDTO request) {
 
         Product product = productService.createProduct(request);
-        return ResponseEntity.ok(new ProductResponseDTO(product));
+        return ResponseEntity.ok(new ProductResponseDTO());
     }
+    // ✅ ADMIN only
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
+       Product product= productService.getProduct(id);
+       return ResponseEntity.ok(new ProductResponseDTO(product));
+    }
+
     // ✅ ADMIN only
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable Long id) {
-        productService.getProduct(id);
+        System.out.println("delete product");
+        productService.deleteProduct(id);
     }
 
     // ✅ USER & ADMIN
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<Product> getProducts() {
-        return productService.getAllProducts();
+    public List<ProductResponseDTO> getAllProducts() {
+        return productService.getAllProducts()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     // ✅ USER only

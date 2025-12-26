@@ -1,7 +1,6 @@
 package org.wldu.webservices.enities;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.*;
 
