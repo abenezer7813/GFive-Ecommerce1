@@ -2,20 +2,11 @@
 import { useCart } from "@/Context/page";
 import Image from "next/image";
 import Link from "next/link";
+import { Product } from "../../types/types";
 
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-};
+
+
+
 
 type Props = {
   products: Product[];
@@ -36,24 +27,20 @@ export default function ProductsGrid({ products }: Props) {
             {/* LINK ONLY ON IMAGE + TEXT */}
             <Link href={`/productsDetail/${product.id}`}>
               <div className="p-5 relative bg-gray-100 rounded-t-2xl">
-                <Image
-                  src={product.images?.[0] || "/placeholder.jpg"}
-                  alt={product.title}
-                  width={400}
-                  height={256}
-                  className="h-64 object-cover hover:scale-105 transition"
-                />
-                {product.discountPercentage > 0 && (
-                  <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs">
-                    -{Math.round(product.discountPercentage)}%
-                  </span>
-                )}
+                 <Image
+    src={product.imageUrl}
+    alt={product.name}
+    width={200}
+    height={200}
+    className="object-cover rounded-md"
+  />
+                
               </div>
 
               <div className="p-4">
                 <div className="flex justify-between mb-2">
                   <h3 className="text-lg font-semibold line-clamp-2">
-                    {product.title}
+                    {product.name}
                   </h3>
                   <span className="font-bold">
                     {product.price} ETB
