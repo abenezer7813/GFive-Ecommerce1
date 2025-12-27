@@ -1,6 +1,5 @@
 'use client';
 
-import { use } from "react";
 import ProductDetail from "./ProductDetail";
 import NavBar from "@/app/components/NavBar";
 

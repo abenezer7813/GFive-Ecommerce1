@@ -1,41 +1,33 @@
-export type Product = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-};
+// app/product/data.ts
+import Cookies from "js-cookie";
+import { Product, Category } from "../../types/types";
 
-// Async function to fetch products
+const API = "https://localhost:8081";
+
 export async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch("https://dummyjson.com/products", {
-      cache: "no-store", // always fresh
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch products");
-    }
-    const data = await res.json();
-    return data.products; // dummyjson returns { products: [...] }
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
+  const token = Cookies.get("token");
+
+  const res = await fetch(`${API}/api/products`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch products");
+  return res.json(); // must be Product[]
 }
 
-// Optional: categories array extracted from products
-export const categories: string[] = [
-  "All",
-  "smartphones",
-  "laptops",
-  "fragrances",
-  "skincare",
-  "groceries",
-  "home-decoration",
-];
+export async function getCategories(): Promise<Category[]> {
+  const token = Cookies.get("token");
+
+  const res = await fetch(`${API}/categories`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch categories");
+  return res.json(); // must be Category[]
+}

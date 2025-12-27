@@ -8,7 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { Product } from "@/app/product/data";
-import { CartItem } from "@/types/cart";
+import { CartItem } from "@/types/types";
 
 type CartContextType = {
   cart: CartItem[];

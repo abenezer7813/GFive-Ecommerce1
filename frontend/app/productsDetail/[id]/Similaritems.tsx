@@ -5,12 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import arrow icons
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  images: string[];
-};
+import { getProducts } from "@/app/product/data";
+import { Product } from "../../../types/types";
 
 type Props = {
   products: Product[];
@@ -58,15 +54,15 @@ export default function Similaritems({ products }: Props) {
             >
               <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4">
                 <Image
-                  src={item.images?.[0]}
-                  alt={item.title}
+                  src={item.imageUrl}
+                  alt={item.name}
                   width={200}
                   height={200}
                   className="rounded-xl object-cover"
                 />
 
                 <h3 className="mt-2 font-semibold line-clamp-1">
-                  {item.title}
+                  {item.name}
                 </h3>
 
                 <p className="font-bold mt-1">

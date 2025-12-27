@@ -6,6 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import React, { useState } from 'react';
 import { PiShoppingCartLight } from "react-icons/pi";
 import { AiOutlineEye } from "react-icons/ai";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 
 interface User {
   
@@ -15,44 +18,65 @@ interface User {
 
 }
 export default function login() {
+
+    const router = useRouter();
+
+
   const inputClass = "shadow-sm p-3 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-400";
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [showPassword, setShowPassword]= useState(false);
- 
+   const [loading, setLoading] = useState(false);
+
+
   const passwordVisibility =() =>{
     setShowPassword(prev => !prev)
   }
 
-const submitHandle = (e: React.FormEvent) => {
+const submitHandle = async (e: React.FormEvent) => {
   e.preventDefault();
+      setLoading(true); 
+
   
   const newUser: User ={
      email, password
   }
   setEmail("")
   setPass("")
-  fetch("https://localhost:8081/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  })
-    .then(async (res) => {
+
+
+  try {
+      const res = await fetch("https://localhost:8081/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
       if (!res.ok) {
         const error = await res.text();
         throw new Error(error || "Login failed");
       }
-      return res.json();
-    })
-    .then((data) => {
-      alert("Login successful");
-      // handle login success, e.g., save token, redirect, etc.
-    })
-    .catch((err) => {
-      alert("Login failed: " + err.message);
-    });
+
+      const data = await res.json();
+
+      // ✅ Save token
+      Cookies.set("token", data.token, {
+  expires: 1 , // 1 minute
+        sameSite: "strict",
+  secure: process.env.NODE_ENV === "production",
+      });
+
+      // ✅ Redirect user
+      console.log("Login successfull")
+      router.push("/product");
+
+    } catch (err: any) {
+      alert(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   console.log(newUser)
 }
 
@@ -116,8 +140,9 @@ const submitHandle = (e: React.FormEvent) => {
 
             </div>
            
-            <button type="submit" className="text-white bg-orange-400 h-12 rounded-xl w-full flex items-center justify-center mt-2">
-              Login
+            <button type="submit"   disabled={loading}
+ className="text-white bg-orange-400 h-12 rounded-xl w-full flex items-center justify-center mt-2">
+              {loading ? "Logging in..." : "Login"}
             </button>
             
           </form>
