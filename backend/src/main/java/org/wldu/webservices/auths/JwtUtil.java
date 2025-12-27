@@ -10,7 +10,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final String SECRET = "THISISAVERYSECRETKEY123456789natiandzekiandme";
-    private static final long EXPIRATION = 20 * 1000; // 1 hour
+    private static final long EXPIRATION = 60*60* 1000; // 1 hour
 
     // ✅ Generate token
     public String generateToken(String email, String role) {
