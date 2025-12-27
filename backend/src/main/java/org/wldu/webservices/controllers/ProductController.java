@@ -46,12 +46,12 @@ public class ProductController {
         Product product = productService.createProduct(request);
         return ResponseEntity.ok(new ProductResponseDTO());
     }
-    // ✅ ADMIN only
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // ← Allow both USER and ADMIN
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
-       Product product= productService.getProduct(id);
-       return ResponseEntity.ok(new ProductResponseDTO(product));
+        Product product = productService.getProduct(id);
+        ProductResponseDTO response = mapToResponse(product);
+        return ResponseEntity.ok(response);
     }
 
     // ✅ ADMIN only
