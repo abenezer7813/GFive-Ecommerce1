@@ -35,7 +35,7 @@ export default function login() {
 
 const submitHandle = async (e: React.FormEvent) => {
   e.preventDefault();
-      setLoading(true);
+      setLoading(true); 
 
   
   const newUser: User ={
@@ -69,6 +69,7 @@ const submitHandle = async (e: React.FormEvent) => {
       });
 
       // ✅ Redirect user
+      console.log("Login successfull")
       router.push("/product");
 
     } catch (err: any) {
