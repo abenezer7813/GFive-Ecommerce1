@@ -7,11 +7,12 @@ import org.wldu.webservices.dto.category.CategoryRequestDto;
 import org.wldu.webservices.dto.category.CategoryResponseDto;
 import org.wldu.webservices.enities.CategoriesEntity;
 import org.wldu.webservices.repositories.CategoryRepository;
+import org.wldu.webservices.services.contrats.CategoryServiceInt;
 
 import java.util.List;
 
 @Service
-public class CategoryService {
+public class CategoryService implements CategoryServiceInt {
 
     private final CategoryRepository categoryRepository;
 
