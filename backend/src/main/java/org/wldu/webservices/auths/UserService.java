@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.wldu.webservices.dto.user.UpdateUserRequest;
 import org.wldu.webservices.enities.Role;
 import org.wldu.webservices.exception.BadRequestException;
 import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.RoleRepository;
+import org.wldu.webservices.security.SecurityUtils;
 
 
 import java.time.LocalDateTime;
@@ -65,5 +67,29 @@ public class UserService {
 
         return user;
     }
+    public User getCurrentUser() {
+
+        String email = SecurityUtils.getCurrentUserEmail();
+
+        if (email == null) {
+            throw new RuntimeException("No authenticated user");
+        }
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+    public User updateUser(String email, UpdateUserRequest request) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAge(request.getAge());
+        user.setGender(request.getGender());
+
+        return userRepository.save(user);
+    }
+
 }
 

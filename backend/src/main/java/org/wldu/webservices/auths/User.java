@@ -32,7 +32,7 @@ public class User {
     @Column
     private String lastName;
     @Column
-    private  String age;
+    private  Integer age;
     @Column
     private String gender;
 
@@ -133,11 +133,11 @@ public class User {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
