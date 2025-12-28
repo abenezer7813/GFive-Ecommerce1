@@ -1,30 +1,32 @@
-package org.wldu.webservices.auths;
+package org.wldu.webservices.dto.user;
 
-import java.time.LocalDateTime;
+import org.wldu.webservices.auths.User;
+import org.wldu.webservices.enities.Role;
 
-public class RegisterResponseDto {
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class UserResponseDto {
+
     private Long id;
     private String email;
     private String firstName;
     private String lastName;
-    private String password;
     private Integer age;
     private String gender;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Boolean enabled;
+    private Set<String> roles;
 
-    public RegisterResponseDto(User user) {
+    public UserResponseDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
+        this.roles = user.getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
-        this.password = user.getPassword();
         this.age = user.getAge();
         this.gender = user.getGender();
-        this.createdAt = user.getCreatedAt();
-        this.updatedAt = user.getUpdatedAt();
-        this.enabled = user.isEnabled();
 
     }
 
@@ -34,6 +36,10 @@ public class RegisterResponseDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
     }
 
     public String getFirstName() {
@@ -47,19 +53,9 @@ public class RegisterResponseDto {
     public Integer getAge() {
         return age;
     }
-
     public String getGender() {
         return gender;
     }
-    public LocalDateTime getCreatedAt() {
-        return updatedAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
+    // getters
 }
+

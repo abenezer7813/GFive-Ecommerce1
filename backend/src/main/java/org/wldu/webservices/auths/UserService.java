@@ -4,8 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.wldu.webservices.dto.user.UpdateUserRequest;
 import org.wldu.webservices.enities.Role;
+import org.wldu.webservices.exception.BadRequestException;
+import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.RoleRepository;
+import org.wldu.webservices.security.SecurityUtils;
 
 
 import java.time.LocalDateTime;
@@ -35,7 +39,7 @@ public class UserService {
         }
 
         Role userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
 
         User user = new User();
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -55,13 +59,37 @@ public class UserService {
 
     public User login(LoginRequestDto request) {
         User user=userRepository.findByEmail(request.getEmail()).
-                orElseThrow(() -> new RuntimeException("User not found"));
+                orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if(!passwordEncoder.matches(request.getPassword(),
                 user.getPassword())) {
-            throw new RuntimeException("Wrong password");
+            throw new BadRequestException("Wrong password");
         }
 
         return user;
     }
+    public User getCurrentUser() {
+
+        String email = SecurityUtils.getCurrentUserEmail();
+
+        if (email == null) {
+            throw new RuntimeException("No authenticated user");
+        }
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+    public User updateUser(String email, UpdateUserRequest request) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setAge(request.getAge());
+        user.setGender(request.getGender());
+
+        return userRepository.save(user);
+    }
+
 }
 

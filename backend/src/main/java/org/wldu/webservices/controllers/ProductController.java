@@ -1,5 +1,8 @@
 package org.wldu.webservices.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.wldu.webservices.dto.product.ProductRequestDTO;
 import org.wldu.webservices.dto.product.ProductResponseDTO;
 import jakarta.validation.Valid;
@@ -46,12 +49,12 @@ public class ProductController {
         Product product = productService.createProduct(request);
         return ResponseEntity.ok(new ProductResponseDTO());
     }
+    // ✅ ADMIN only
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")  // ← Allow both USER and ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
-        Product product = productService.getProduct(id);
-        ProductResponseDTO response = mapToResponse(product);
-        return ResponseEntity.ok(response);
+       Product product= productService.getProduct(id);
+       return ResponseEntity.ok(new ProductResponseDTO(product));
     }
 
     // ✅ ADMIN only
@@ -63,14 +66,25 @@ public class ProductController {
     }
 
     // ✅ USER & ADMIN
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<ProductResponseDTO> getAllProducts() {
-        return productService.getAllProducts()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+    public Page<ProductResponseDTO> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+        return productService.getAllProducts(pageable)
+                .map(this::mapToResponse);
     }
+
 
     // ✅ USER only
     @PostMapping("/{id}/buy")

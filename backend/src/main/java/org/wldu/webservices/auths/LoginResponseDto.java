@@ -2,17 +2,18 @@ package org.wldu.webservices.auths;
 
 public class LoginResponseDto {
 
-    private Long id;
-    private String email;
-    private String message;
 
-    private String token;
+    private String accessToken;
+    private String refreshToken;
 
-    public LoginResponseDto(String token) {
-        this.token = token;
+
+    public LoginResponseDto(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
     public String getToken() {
-        return token;
+        return this.accessToken;
     }
+    public String getRefreshToken() {return this.refreshToken;}
 }

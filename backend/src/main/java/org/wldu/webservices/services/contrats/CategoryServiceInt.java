@@ -2,6 +2,8 @@ package org.wldu.webservices.services.contrats;
 
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.wldu.webservices.dto.category.CategoryRequestDto;
 import org.wldu.webservices.dto.category.CategoryResponseDto;
 
@@ -11,7 +13,7 @@ public interface CategoryServiceInt {
 
     CategoryResponseDto createCategory(CategoryRequestDto request);
 
-    List<CategoryResponseDto> getAllCategories();
+    Page<CategoryResponseDto> getAllCategories(Pageable pageable);
 
     CategoryResponseDto getCategory(Long id);
 }
