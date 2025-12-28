@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wldu.webservices.auths.User;
 import org.wldu.webservices.auths.UserRepository;
-import org.wldu.webservices.enities.RefreshToken;
+import org.wldu.webservices.entities.RefreshToken;
 import org.wldu.webservices.repositories.RefreshTokenRepository;
 
 import java.time.Instant;

@@ -1,6 +1,6 @@
 package org.wldu.webservices.services.contrats;
 import org.wldu.webservices.dto.product.ProductRequestDTO;
-import org.wldu.webservices.enities.Product;
+import org.wldu.webservices.entities.Product;
 
 import java.util.List;
 

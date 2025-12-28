@@ -3,7 +3,7 @@ package org.wldu.webservices.auths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.web.bind.annotation.*;
-import org.wldu.webservices.enities.RefreshToken;
+import org.wldu.webservices.entities.RefreshToken;
 import org.wldu.webservices.repositories.RefreshTokenRepository;
 import org.wldu.webservices.services.imp.RefreshTokenService;
 

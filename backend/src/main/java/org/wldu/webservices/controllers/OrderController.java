@@ -4,7 +4,7 @@ import org.wldu.webservices.dto.order.OrderResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.wldu.webservices.enities.OrderEntity;
+import org.wldu.webservices.entities.OrderEntity;
 import org.wldu.webservices.auths.User;
 import org.wldu.webservices.services.imp.OrderServiceImpl;
 
