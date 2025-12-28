@@ -9,12 +9,13 @@ import org.wldu.webservices.enities.OrderEntity;
 import org.wldu.webservices.enities.OrderItemEntity;
 import org.wldu.webservices.repositories.CartRepository;
 import org.wldu.webservices.repositories.OrderRepository;
+import org.wldu.webservices.services.contrats.OrderService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl {
+public class OrderServiceImpl implements OrderService {
 
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;

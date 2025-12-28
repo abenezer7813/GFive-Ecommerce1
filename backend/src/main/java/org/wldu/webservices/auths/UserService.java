@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.wldu.webservices.enities.Role;
+import org.wldu.webservices.exception.BadRequestException;
+import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.RoleRepository;
 
 
@@ -35,7 +37,7 @@ public class UserService {
         }
 
         Role userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
 
         User user = new User();
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -55,10 +57,10 @@ public class UserService {
 
     public User login(LoginRequestDto request) {
         User user=userRepository.findByEmail(request.getEmail()).
-                orElseThrow(() -> new RuntimeException("User not found"));
+                orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if(!passwordEncoder.matches(request.getPassword(),
                 user.getPassword())) {
-            throw new RuntimeException("Wrong password");
+            throw new BadRequestException("Wrong password");
         }
 
         return user;
