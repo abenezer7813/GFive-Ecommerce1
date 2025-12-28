@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { Product } from "@/app/product/data";
+import { Product } from "@/app/user/product/data";
 import { CartItem } from "@/types/types";
 
 type CartContextType = {
