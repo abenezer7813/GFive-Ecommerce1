@@ -143,7 +143,7 @@ const NavBar = () => {
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl z-50 py-2 animate-fade-in">
                   <Link
-                    href="/profile"
+                    href="/user"
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors duration-200"
                     onClick={() => setIsProfileOpen(false)}
                   >

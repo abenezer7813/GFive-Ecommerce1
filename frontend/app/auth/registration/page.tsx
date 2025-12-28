@@ -47,7 +47,7 @@ const addUser = async () => {
       email,
       age,
     };
-    const res = await fetch("https://localhost:8081/user/register", {
+    const res = await fetch("https://localhost:8081/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
