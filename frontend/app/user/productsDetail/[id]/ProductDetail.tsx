@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { FaStar, FaShoppingCart, FaPaperPlane } from "react-icons/fa";
 import Similaritems from "./Similaritems";
-import { Product } from "../../../types/types";
+import { Product } from "../../../../types/types";
 import { useCart } from "@/Context/page";
 
 

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { FaUser, FaBars, FaTimes, FaUserCircle, FaShoppingBag, FaSignOutAlt } from "react-icons/fa";
 import { BsCartCheck } from "react-icons/bs";
 import Search from "./Search";
-import { getProducts, getCategories } from "@/app/product/data";
-import { Product, Category } from "../../types/types";
+import { getProducts, getCategories } from "@/app/user/product/data";
+import { Product, Category } from "../types/types";
 
 import { useCart } from "@/Context/page";
 
@@ -94,7 +94,7 @@ const NavBar = () => {
                     filteredProducts.slice(0, 5).map((product) => (
                       <Link
                         key={product.id}
-                        href={`/productsDetail/${product.id}`}
+                        href={`/user/productsDetail/${product.id}`}
                         className="flex items-center gap-3 p-3 hover:bg-gray-100 transition-colors duration-200"
                         onClick={() => setQuery("")}
                       >

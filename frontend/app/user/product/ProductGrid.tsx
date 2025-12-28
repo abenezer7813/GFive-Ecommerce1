@@ -2,7 +2,7 @@
 import { useCart } from "@/Context/page";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "../../types/types";
+import { Product } from "../../../types/types";
 
 
 
@@ -25,7 +25,7 @@ export default function ProductsGrid({ products }: Props) {
             className="bg-white shadow-lg rounded-2xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[400px]"
           >
             {/* LINK ONLY ON IMAGE + TEXT */}
-            <Link href={`/productsDetail/${product.id}`}>
+            <Link href={`/user/productsDetail/${product.id}`}>
               <div className="p-5 relative bg-gray-100 rounded-t-2xl">
                  <Image
     src={product.imageUrl}

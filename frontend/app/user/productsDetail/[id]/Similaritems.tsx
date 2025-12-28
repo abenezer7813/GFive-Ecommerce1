@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import arrow icons
 
-import { getProducts } from "@/app/product/data";
+import { getProducts } from "@/app/user/product/data";
 import { Product } from "../../../types/types";
 
 type Props = {
