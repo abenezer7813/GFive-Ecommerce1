@@ -1,8 +1,11 @@
 export default function Home() {
   return (
-    <main className="container">
-      <h1 className="title">Welcome to My App</h1>
-      <p className="text">This is my Next.js project</p>
+    <main className="home-container">
+      <h1 className="home-title">GFive Ecommerce</h1>
+      <p className="home-description">
+        A modern ecommerce platform where users can browse products,
+        manage their cart, and place orders easily.
+      </p>
     </main>
   );
 }
