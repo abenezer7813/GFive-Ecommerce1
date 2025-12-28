@@ -1,7 +1,7 @@
 'use client';
 
 import ProductDetail from "./ProductDetail";
-import NavBar from "@/app/components/NavBar";
+import NavBar from "@/components/NavBar";
 
 type Props = { params: Promise<{ id: string }> };
 

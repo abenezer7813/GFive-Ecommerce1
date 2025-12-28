@@ -8,6 +8,9 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import { AiOutlineEye } from "react-icons/ai";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { getDecodedToken } from "@/lib/auth";
+import { jwtDecode } from 'jwt-decode';
+
 
 
 interface User {
@@ -68,9 +71,17 @@ const submitHandle = async (e: React.FormEvent) => {
   secure: process.env.NODE_ENV === "production",
       });
 
-      // ✅ Redirect user
-      console.log("Login successfull")
-      router.push("/product");
+const decoded: any = jwtDecode(data.token);
+
+console.log(decoded.role)
+if (decoded?.role === "ROLE_ADMIN") {
+  router.push("/admin/products");
+} else if (decoded?.role === "ROLE_USER") {
+  router.push("/user/product");
+} else {
+  alert("Unknown role");
+}
+
 
     } catch (err: any) {
       alert(err.message || "Login failed");
@@ -179,4 +190,5 @@ const submitHandle = async (e: React.FormEvent) => {
       </div>
   )
 }
+
 

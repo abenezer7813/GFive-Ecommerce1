@@ -1,5 +1,5 @@
 "use client";
-import { Category } from "../../types/types";
+import { Category } from "../../../types/types";
 
 type Props = {
   categories: Category[];
