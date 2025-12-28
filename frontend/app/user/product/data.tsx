@@ -1,13 +1,18 @@
-// app/product/data.ts
 import Cookies from "js-cookie";
 import { Product, Category } from "../../../types/types";
+import { PageResponse } from "../../../types/page";
 
 const API = "https://localhost:8081";
 
-export async function getProducts(): Promise<Product[]> {
+// PRODUCTS
+export async function getProducts(
+  page = 0,
+  size = 10
+): Promise<PageResponse<Product>> {
   const token = Cookies.get("token");
 
-  const res = await fetch(`${API}/api/products`, {
+  const res = await fetch(`${API}/api/products?page=${page}&size=${size}&`,
+    {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,10 +23,10 @@ export async function getProducts(): Promise<Product[]> {
   return res.json(); // must be Product[]
 }
 
-export async function getCategories(): Promise<Category[]> {
+export async function getCategories(page = 0, size = 10): Promise<PageResponse<Category>> {
   const token = Cookies.get("token");
 
-  const res = await fetch(`${API}/categories`, {
+  const res = await fetch(`${API}/categories?page=${page}&size=${size}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

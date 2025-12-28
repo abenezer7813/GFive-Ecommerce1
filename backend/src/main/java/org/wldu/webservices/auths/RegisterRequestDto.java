@@ -13,7 +13,7 @@ public class RegisterRequestDto {
     private String password;
     private String firstName;
     private String lastName;
-    private String age;
+    private Integer age;
     private String gender;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -54,10 +54,10 @@ public class RegisterRequestDto {
         this.lastName = lastName;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

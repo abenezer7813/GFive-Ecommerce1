@@ -1,5 +1,9 @@
 package org.wldu.webservices.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +34,25 @@ public class CategoryController {
     }
 
     // PUBLIC
-    @GetMapping
-    public ResponseEntity<List<CategoryResponseDto>> getAll() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+    @GetMapping("")
+    public
+    Page<CategoryResponseDto> getAllCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                direction.equalsIgnoreCase("desc")
+                        ? Sort.by(sortBy).descending()
+                        : Sort.by(sortBy).ascending()
+        );
+
+        return categoryService.getAllCategories(pageable);
     }
+
 
     // PUBLIC
     @GetMapping("/{id}")

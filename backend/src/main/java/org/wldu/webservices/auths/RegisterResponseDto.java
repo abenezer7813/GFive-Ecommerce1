@@ -8,7 +8,7 @@ public class RegisterResponseDto {
     private String firstName;
     private String lastName;
     private String password;
-    private String age;
+    private Integer age;
     private String gender;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -44,7 +44,7 @@ public class RegisterResponseDto {
         return lastName;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 

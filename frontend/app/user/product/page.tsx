@@ -9,17 +9,28 @@ import { Product, Category } from "../../../types/types";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
 const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  useEffect(() => {
+
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+
+   useEffect(() => {
     async function loadData() {
-      const [p, c] = await Promise.all([getProducts(), getCategories()]);
-      setProducts(p);
-      setCategories(c);
+      const productsPage = await getProducts(page, 3);
+      const categoriesPage = await getCategories(0, 50);
+
+      // 👇 THIS IS THE MOST IMPORTANT PART
+      setProducts(productsPage.content);
+      setCategories(categoriesPage.content);
+
+      setTotalPages(productsPage.totalPages);
     }
+
     loadData();
-  }, []);
+  }, [page]);
 
   const filteredProducts =
   selectedCategory === null
@@ -69,7 +80,27 @@ const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
             onSelect={setSelectedCategory}
           />
           <ProductsGrid products={filteredProducts} />
-        </div>{" "}
+        </div>
+         {/* Pagination */}
+      <div className="flex justify-center gap-4 my-6">
+        <button
+          disabled={page === 0}
+          onClick={() => setPage((p) => p - 1)}
+        >
+          Prev
+        </button>
+
+        <span>
+          Page {page + 1} / {totalPages}
+        </span>
+
+        <button
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </button>
+      </div>{" "}
       </div>
     </div>
   );

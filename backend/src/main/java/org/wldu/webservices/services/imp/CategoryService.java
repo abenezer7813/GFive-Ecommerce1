@@ -1,6 +1,8 @@
 package org.wldu.webservices.services.imp;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.wldu.webservices.dto.category.CategoryRequestDto;
@@ -34,15 +36,17 @@ public class CategoryService implements CategoryServiceInt {
         CategoriesEntity saved = categoryRepository.save(category);
 
         return new CategoryResponseDto(saved.getId(), saved.getName(),saved.getDescription());
-    }
+}
 
-    // PUBLIC
-    public List<CategoryResponseDto> getAllCategories() {
-        return categoryRepository.findAll()
-                .stream()
-                .map(c -> new CategoryResponseDto(c.getId(), c.getName(), c.getDescription()))
-                .toList();
-    }
+// PUBLIC
+public Page<CategoryResponseDto> getAllCategories(Pageable pageable) {
+    return categoryRepository.findAll(pageable)
+            .map(c -> new CategoryResponseDto(
+                    c.getId(),
+                    c.getName(),
+                    c.getDescription()
+            ));
+}
 
     // PUBLIC
     public CategoryResponseDto getCategory(Long id) {
