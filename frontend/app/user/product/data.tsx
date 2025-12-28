@@ -1,6 +1,6 @@
 // app/product/data.ts
 import Cookies from "js-cookie";
-import { Product, Category } from "../../types/types";
+import { Product, Category } from "../../../types/types";
 
 const API = "https://localhost:8081";
 

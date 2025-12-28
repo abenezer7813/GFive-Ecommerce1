@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../../components/NavBar";
 import Categories from "./Categories";
 import ProductsGrid from "./ProductGrid";
 import { getProducts, getCategories } from "./data";
-import { Product, Category } from "../../types/types";
+import { Product, Category } from "../../../types/types";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);

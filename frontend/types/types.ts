@@ -21,3 +21,13 @@ export type Product = {
   categoryId: number;
   imageUrl: string;
 };
+
+export type AddProduct = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  stockQuantity: number
+  categoryId: number;
+  imageUrl: string;
+};
