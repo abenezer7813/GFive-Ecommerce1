@@ -1,4 +1,4 @@
-package org.wldu.webservices.enities;
+package org.wldu.webservices.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

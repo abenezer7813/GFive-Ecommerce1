@@ -1,7 +1,7 @@
 package org.wldu.webservices.dto.user;
 
 import org.wldu.webservices.auths.User;
-import org.wldu.webservices.enities.Role;
+import org.wldu.webservices.entities.Role;
 
 import java.util.Set;
 import java.util.stream.Collectors;

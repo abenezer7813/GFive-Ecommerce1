@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import org.wldu.webservices.auths.User;
-import org.wldu.webservices.enities.RefreshToken;
+import org.wldu.webservices.entities.RefreshToken;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package org.wldu.webservices.dto.product;
 
-import org.wldu.webservices.enities.Product;
+import org.wldu.webservices.entities.Product;
 
 
 import java.math.BigDecimal;

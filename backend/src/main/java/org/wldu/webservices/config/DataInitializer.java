@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.wldu.webservices.auths.User;
 import org.wldu.webservices.auths.UserRepository;
-import org.wldu.webservices.enities.Role;
+import org.wldu.webservices.entities.Role;
 import org.wldu.webservices.repositories.RoleRepository;
 
 

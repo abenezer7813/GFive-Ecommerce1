@@ -1,9 +1,8 @@
 package org.wldu.webservices.auths;
 
 import jakarta.persistence.*;
-import org.wldu.webservices.entities.Cart;
-import org.wldu.webservices.entities.OrderEntity;
-import org.wldu.webservices.entities.Role;
+import org.wldu.webservices.entities.*;
+
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
