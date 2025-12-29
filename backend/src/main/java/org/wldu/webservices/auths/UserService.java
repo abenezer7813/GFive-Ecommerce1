@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.wldu.webservices.enities.Role;
+import org.wldu.webservices.entities.Role;
 import org.wldu.webservices.repositories.RoleRepository;
 
 
