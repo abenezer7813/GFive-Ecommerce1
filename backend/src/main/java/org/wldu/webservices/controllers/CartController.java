@@ -4,27 +4,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.wldu.webservices.auths.User;
-import org.wldu.webservices.services.imp.CartServiceImpl;
+import org.wldu.webservices.services.contrats.CartService;
 
 @RestController
 @RequestMapping("/api/cart")
-
 public class CartController {
 
-    private final CartServiceImpl cartService;
+    private final CartService cartService;
 
-    public CartController(CartServiceImpl cartService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addToCart(
+            @AuthenticationPrincipal User user,
             @RequestParam Long productId,
-            @RequestParam int quantity,
-            @AuthenticationPrincipal User user) {
-
+            @RequestParam int quantity
+    ) {
         cartService.addToCart(user, productId, quantity);
-        return ResponseEntity.ok("Added to cart");
+        return ResponseEntity.ok("Item added to cart");
     }
 }
-
