@@ -2,16 +2,16 @@ package org.wldu.webservices.services.imp;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.wldu.webservices.enities.Cart;
-import org.wldu.webservices.enities.CartItem;
-import org.wldu.webservices.enities.Product;
 import org.wldu.webservices.auths.User;
+import org.wldu.webservices.entities.Cart;
+import org.wldu.webservices.entities.CartItem;
+import org.wldu.webservices.entities.Product;
 import org.wldu.webservices.repositories.CartItemRepository;
 import org.wldu.webservices.repositories.CartRepository;
 import org.wldu.webservices.repositories.ProductRepository;
 import org.wldu.webservices.services.contrats.CartService;
 
-@Service  // ✅ SPRING SERVICE
+@Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
@@ -28,9 +28,9 @@ public class CartServiceImpl implements CartService {
         this.productRepository = productRepository;
     }
 
+    @Override
     @Transactional
     public void addToCart(User user, Long productId, int quantity) {
-
         Cart cart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
@@ -44,11 +44,11 @@ public class CartServiceImpl implements CartService {
         CartItem item = cartItemRepository
                 .findByCartIdAndProductId(cart.getId(), productId)
                 .orElseGet(() -> {
-                    CartItem ci = new CartItem();
-                    ci.setCart(cart);
-                    ci.setProduct(product);
-                    ci.setQuantity(0);
-                    return ci;
+                    CartItem newItem = new CartItem();
+                    newItem.setCart(cart);
+                    newItem.setProduct(product);
+                    newItem.setQuantity(0);
+                    return newItem;
                 });
 
         item.setQuantity(item.getQuantity() + quantity);
