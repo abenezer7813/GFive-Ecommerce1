@@ -1,15 +1,16 @@
 package org.wldu.webservices.dto.cart;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-@Getter @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartResponseDTO {
-
     private Long cartId;
-    private List<CartItemResponseDTO> items;
-    private BigDecimal totalPrice;
+    private Long userId;
+    private List<CartResponseDTO> items; // CartItemDTO has id, productId, quantity
 }
-
