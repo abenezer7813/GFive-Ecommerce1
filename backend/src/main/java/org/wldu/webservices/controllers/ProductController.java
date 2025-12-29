@@ -21,6 +21,7 @@ public class ProductController {
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
+
     private ProductResponseDTO mapToResponse(Product product) {
 
         ProductResponseDTO dto = new ProductResponseDTO();
@@ -49,7 +50,7 @@ public class ProductController {
     }
     // ✅ ADMIN only
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
        Product product= productService.getProduct(id);
        return ResponseEntity.ok(new ProductResponseDTO(product));
