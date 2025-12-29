@@ -7,6 +7,7 @@ import org.wldu.webservices.entities.Cart;
 import org.wldu.webservices.entities.CartItem;
 import org.wldu.webservices.entities.OrderEntity;
 import org.wldu.webservices.entities.OrderItemEntity;
+import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.CartRepository;
 import org.wldu.webservices.repositories.OrderRepository;
 import org.wldu.webservices.services.contrats.OrderService;
@@ -32,7 +33,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderEntity checkout(User user) {
 
         Cart cart = cartRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart is empty"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cart is empty"));
+        if (cart.getItems().isEmpty()) {
+            throw new ResourceNotFoundException("Cannot checkout: cart is empty");
+        }
 
         OrderEntity order = new OrderEntity();
         order.setUser(user);
@@ -62,4 +66,5 @@ public class OrderServiceImpl implements OrderService {
 
         return orderRepository.save(order);
     }
+
 }
