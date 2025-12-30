@@ -32,7 +32,6 @@ public class ProductController {
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStockQuantity());
         dto.setImageUrl(product.getImageUrl());
-
         dto.setCategoryId(product.getCategory().getId());
         dto.setCategoryName(product.getCategory().getName());
 
