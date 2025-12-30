@@ -92,6 +92,22 @@ public class ProductController {
         productService.buyProduct(id);
         return "Purchase successful";
     }
+    // ✅ ADMIN only
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductResponseDTO> updateProduct(
+            @PathVariable Long id,
+            @RequestBody @Valid ProductRequestDTO request) {
+
+        // Call service to update
+        Product updatedProduct = productService.updateProduct(id, request);
+
+        // Map entity to DTO
+        ProductResponseDTO responseDTO = mapToResponse(updatedProduct);
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
 }
 
 
