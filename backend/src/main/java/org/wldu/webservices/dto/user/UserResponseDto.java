@@ -16,6 +16,7 @@ public class UserResponseDto {
     private String gender;
     private Set<String> roles;
 
+    public UserResponseDto() {}
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();

@@ -1,5 +1,6 @@
 package org.wldu.webservices.dto.product;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,12 +10,12 @@ import java.math.BigDecimal;
 
 public class ProductRequestDTO {
 
-    @NotBlank
+    @NotBlank @NotNull
     private String name;
 
     private String description;
 
-    @NotNull
+    @NotNull  @NotNull
     private BigDecimal price;
 
     @NotNull
@@ -75,6 +76,12 @@ public class ProductRequestDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

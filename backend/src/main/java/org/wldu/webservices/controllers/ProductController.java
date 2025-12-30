@@ -21,6 +21,7 @@ public class ProductController {
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
+
     private ProductResponseDTO mapToResponse(Product product) {
 
         ProductResponseDTO dto = new ProductResponseDTO();

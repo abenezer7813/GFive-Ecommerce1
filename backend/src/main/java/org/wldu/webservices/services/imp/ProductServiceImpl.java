@@ -36,6 +36,7 @@ public class ProductServiceImpl {
         product.setImageUrl(productRequest.getImageUrl());
         product.setDescription(productRequest.getDescription());
         product.setPrice(productRequest.getPrice());
+        product.setImageUrl(productRequest.getImageUrl());
         product.setStockQuantity(productRequest.getStockQuantity());
         product.setCategory(category);
 
