@@ -4,6 +4,7 @@ import org.wldu.webservices.entities.Product;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ProductResponseDTO {
 
@@ -13,6 +14,7 @@ public class ProductResponseDTO {
     private BigDecimal price;
     private int stockQuantity;
     private String imageUrl;
+    private LocalDateTime createdAt;
 
     // Category info (flattened)
     private Long categoryId;
@@ -28,6 +30,7 @@ public class ProductResponseDTO {
         this.imageUrl = product.getImageUrl();
         this.categoryId = product.getCategory().getId();
         this.categoryName = product.getCategory().getName();
+        this.createdAt = product.getCreatedAt();
 
     }
 
@@ -95,5 +98,13 @@ public class ProductResponseDTO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -8,12 +8,14 @@ import { Product } from "../../../types/types";
 
 
 
+
 type Props = {
   products: Product[];
 };
 
 export default function ProductsGrid({ products }: Props) {
   const { addToCart } = useCart();
+
   
 
   return (

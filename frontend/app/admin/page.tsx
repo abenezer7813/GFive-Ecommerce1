@@ -1,19 +1,14 @@
-import React from 'react'
+"use client";
 
-const page = () => {
-  return (
-<div>
-  <div>
-    <span>
-      <h1>
-        total customers
-      </h1>
-      {}
-    </span>
-  </div>
-  <div></div>
-  <div></div>
-</div>  )
-}
+import { useEffect, useState } from "react";
+import { FaBoxOpen, FaDollarSign } from "react-icons/fa";
+import { getProductAnalytics } from "@/lib/dashboard";
+import { redirect } from "next/navigation";
 
-export default page
+
+const Page = () => {
+ redirect('/admin/dashboard');
+
+};
+
+export default Page;

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import arrow icons
 
 import { getProducts } from "@/app/user/product/data";
-import { Product } from "../../../types/types";
+import { Product } from "../../../../types/types";
 
 type Props = {
   products: Product[];
@@ -47,19 +47,16 @@ export default function Similaritems({ products }: Props) {
         {/* Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 ">
           {currentItems.map((item) => (
-            <Link
-              key={item.id}
-              href={`/productsDetail/${item.id}`}
-              className="block"
-            >
+            <Link key={item.id} href={`/user/productsDetail/${item.id}`}>
+
               <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4">
                 <Image
-                  src={item.imageUrl}
-                  alt={item.name}
-                  width={200}
-                  height={200}
-                  className="rounded-xl object-cover"
-                />
+  src={item.imageUrl}
+  alt={item.name}
+  width={200}
+  height={200}
+/>
+
 
                 <h3 className="mt-2 font-semibold line-clamp-1">
                   {item.name}

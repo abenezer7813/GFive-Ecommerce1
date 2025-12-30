@@ -32,6 +32,7 @@ public class ProductController {
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStockQuantity());
         dto.setImageUrl(product.getImageUrl());
+        dto.setCreatedAt(product.getCreatedAt());
         dto.setCategoryId(product.getCategory().getId());
         dto.setCategoryName(product.getCategory().getName());
 
@@ -91,6 +92,7 @@ public class ProductController {
         productService.buyProduct(id);
         return "Purchase successful";
     }
+
     // ✅ ADMIN only
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -106,7 +108,6 @@ public class ProductController {
 
         return ResponseEntity.ok(responseDTO);
     }
-
 }
 
 

@@ -1,149 +1,146 @@
 "use client";
-import Cookies from "js-cookie";
 
-import { useState } from "react";
-import type { AddProduct } from "../../../types/types";
+import { useState, useEffect } from "react";
+import { getProducts, getCategories } from "../../user/product/data";
+import { Product, Category } from "../../../types/types";
+import Categories from "./Categories";
+import SortBy from "./SortBy";
+import Link from "next/link";
+import Image from "next/image";
+
 
 export default function ProductsPage() {
-  const [form, setForm] = useState<Omit<AddProduct, "id">>({
-    name: "",
-    description: "",
-    price: 0,
-    stockQuantity:0,
-    categoryId: 0,
-    imageUrl: "",
-  });
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+const [sortField, setSortField] = useState<
+  "name" | "price" | "createdAt"
+>("createdAt");
+const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    async function loadData() {
+      const productsPage = await getProducts(page, 10);
+      const categoriesPage = await getCategories(0, 50);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+      // 👇 THIS IS THE MOST IMPORTANT PART
+      setProducts(productsPage.content);
+      setCategories(categoriesPage.content);
 
-    try {
-  const token = Cookies.get("token");
-
-      const res = await fetch("https://localhost:8081/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...form,
-          price: Number(form.price),
-          stockQuantity: Number(form.stockQuantity),
-          categoryId: Number(form.categoryId),
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to add product");
-      }
-
-      setMessage("✅ Product added successfully");
-      setForm({
-        name: "",
-        description: "",
-        price: 0,
-        stockQuantity: 0,
-        categoryId: 0,
-        imageUrl: "",
-      });
-    } catch (err) {
-      setMessage("❌ Error adding product");
-    } finally {
-      setLoading(false);
+      setTotalPages(productsPage.totalPages);
     }
-  };
+
+    loadData();
+  }, [page]);
+
+  const filteredProducts =
+    selectedCategory === null
+      ? products
+      : products.filter((p) => p.categoryId === selectedCategory);
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  if (sortField === "createdAt") {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+
+    return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+  }
+
+  if (sortField === "name") {
+    return sortOrder === "asc"
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
+  }
+
+  // price
+  return sortOrder === "asc"
+    ? a.price - b.price
+    : b.price - a.price;
+});
 
   return (
-    <div className="max-w-2xl bg-white p-6 rounded-xl shadow">
-      <h1 className="text-2xl font-semibold text-black mb-6">
-        Add New Product
-      </h1>
+  <div className="mt-15">
+  {/* Sticky SortBy */}
+ 
+        <div className="sticky top-0 z-50 bg-white">
+          <SortBy
+            field={sortField}
+            order={sortOrder}
+            onFieldChange={setSortField}
+            onOrderChange={setSortOrder}
+          />
+        </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Product Name"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          required
-        />
+  {/* Main content */}
+  <div className="pt-0 bg-white pb-16 flex">
+    {/* Sidebar */}
+    <Categories
+      categories={categories}
+      selectedCategoryId={selectedCategory}
+      onSelect={setSelectedCategory}
+    />
 
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          rows={4}
-          required
-        />
+    {/* Products grid */}
+    <div className="flex-1 ml-60 mt-18">
+<div className="w-4/4 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {sortedProducts.map((product) => (
+          <div
+            key={product.id}
+            className="bg-white shadow-lg rounded-xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[300px]"
+          >
+            {/* LINK ONLY ON IMAGE + TEXT */}
+            <Link href={`/admin/productsDetail/${product.id}`}>
+              <div className="p-5  bg-gray-100 rounded-t-2xl flex justify-center items-center">
+                <Image
+                  src={product.imageUrl  || "/heroimage.jpg"}
+                  alt={product.name}
+                  width={150}
+                  height={200}
+                  className="object-cover rounded-md"
+                />
+              </div>
 
-        <input
-          name="price"
-          type="number"
-          value={form.price}
-          onChange={handleChange}
-          placeholder="Price"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          required
-        />
-        <input
-          name="stockQuantity"
-          type="number"
-          value={form.stockQuantity}
-          onChange={handleChange}
-          placeholder="Stock quantity"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          required
-        />
+              <div className="p-4">
+                <div className="flex justify-between mb-2">
+                  <h3 className="text-lg font-semibold line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <span className="font-bold">{product.price} ETB</span>
+                </div>
+                <p className="text-gray-600 text-sm line-clamp-2">
+                  {product.description}
+                </p>
+              </div>
+            </Link>
 
-        <input
-          name="categoryId"
-          type="number"
-          value={form.categoryId}
-          onChange={handleChange}
-          placeholder="Category ID"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          required
-        />
+           
+          </div>
+        ))}
+      </div>
+    </div>    </div>
+  </div>
 
-        <input
-          name="imageUrl"
-          value={form.imageUrl}
-          onChange={handleChange}
-          placeholder="Image URL"
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          required
-        />
+  {/* Pagination */}
+  <div className="flex justify-center gap-4 my-6">
+    <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
+      Prev
+    </button>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          {loading ? "Adding..." : "Add Product"}
-        </button>
-      </form>
+    <span>
+      Page {page + 1} / {totalPages}
+    </span>
 
-      {message && (
-        <p className="mt-4 text-sm text-gray-700">{message}</p>
-      )}
-    </div>
+    <button
+      disabled={page + 1 >= totalPages}
+      onClick={() => setPage((p) => p + 1)}
+    >
+      Next
+    </button>
+  </div>
+</div>
   );
 }
