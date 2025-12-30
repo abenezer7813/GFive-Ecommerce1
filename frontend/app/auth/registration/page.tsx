@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import React, { useState } from 'react';
 import { PiShoppingCartLight } from "react-icons/pi";
 import { AiOutlineEye } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 
 interface User {
@@ -18,6 +19,9 @@ interface User {
 }
 
 export default function registration() {
+      const router = useRouter();
+  
+
   const inputClass = "shadow-sm p-3 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-400";
   const [users, setUsers] = useState<User[]>([]);
   const [firstName, setFirstName] = useState("");
@@ -47,7 +51,7 @@ const addUser = async () => {
       email,
       age,
     };
-    const res = await fetch("https://localhost:8081/user/register", {
+    const res = await fetch("https://localhost:8081/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +64,17 @@ const addUser = async () => {
     }
 
     const data = await res.text(); // or res.json()
+
+    setFirstName("");
+  setLastName("");
+  setAge("");
+  setGender("");
+  setEmail("");
+  setPassword("");
+  setConfirmPassword("");
     console.log(data);
+      router.push("/auth/login");
+
   } catch (err) {
     console.error(err);
   }
@@ -78,13 +92,7 @@ const submitHandle = (e: React.FormEvent) => {
   }
   setUsers([newUser]);
   addUser();
-  setFirstName("");
-  setLastName("");
-  setAge("");
-  setGender("");
-  setEmail("");
-  setPassword("");
-  setConfirmPassword("");
+  
   // your logic
 }
 
