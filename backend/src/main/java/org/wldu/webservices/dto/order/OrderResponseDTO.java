@@ -9,17 +9,20 @@ public class OrderResponseDTO {
     private String status;
     private BigDecimal totalPrice;
     private List<OrderItemResponseDTO> items;
+    private String createdAt;
 
-    public OrderResponseDTO(Long id, String status, BigDecimal totalPrice, List<OrderItemResponseDTO> items) {
+    public OrderResponseDTO(Long id, String status, BigDecimal totalPrice, List<OrderItemResponseDTO> items, String createdAt) {
         this.id = id;
         this.status = status;
         this.totalPrice = totalPrice;
         this.items = items;
-    }public OrderResponseDTO(Long id, String status, BigDecimal totalPrice) {
+        this.createdAt = createdAt;
+    }public OrderResponseDTO(Long id, String status, BigDecimal totalPrice, String createdAt) {
         this.id = id;
         this.status = status;
         this.totalPrice = totalPrice;
 
+        this.createdAt = createdAt;
     }
 
     // getters
@@ -27,4 +30,5 @@ public class OrderResponseDTO {
     public String getStatus() { return status; }
     public BigDecimal getTotalPrice() { return totalPrice; }
     public List<OrderItemResponseDTO> getItems() { return items; }
+    public String getCreatedAt() { return createdAt; }
 }
