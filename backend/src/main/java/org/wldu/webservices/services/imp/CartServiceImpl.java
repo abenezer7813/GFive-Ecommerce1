@@ -64,6 +64,23 @@ public class CartServiceImpl implements CartService {
                     return cartRepository.save(cart);
                 });
     }
+    public Cart updateCartItem(User user, Long productId, int quantity) {
+        Cart cart = getCartForUser(user);
 
+        CartItem item = cart.getItems().stream()
+                .filter(i -> i.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        item.setQuantity(quantity);
+        return cartRepository.save(cart);
+    }
+    public Cart removeCartItem(User user, Long productId) {
+        Cart cart = getCartForUser(user);
+
+        cart.getItems().removeIf(item -> item.getProduct().getId().equals(productId));
+
+        return cartRepository.save(cart);
+    }
 
 }

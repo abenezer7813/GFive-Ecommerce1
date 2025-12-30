@@ -43,27 +43,64 @@ public class OrderController {
         OrderResponseDTO dto = new OrderResponseDTO(
                 order.getId(),
                 order.getStatus(),
-                order.getTotalPrice()
+                order.getTotalPrice(),
+                order.getCreatedAt().toString()
         );
 
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping()
-    public List<OrderResponseDTO> myOrders(
+//    @GetMapping()
+//    public List<OrderResponseDTO> myOrders(
+//            @AuthenticationPrincipal UserDetails userDetails) {
+//
+//        User user = userRepository.findByEmail(userDetails.getUsername())
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        return orderService.getOrdersForUser(user)
+//                .stream()
+//                .map(o -> new OrderResponseDTO(
+//                        o.getId(),
+//                        o.getStatus(),
+//                        o.getTotalPrice()
+//                ))
+//                .toList();
+//    }
+    private OrderResponseDTO mapToDto(OrderEntity order) {
+
+        List<OrderItemResponseDTO> items = order.getItems().stream()
+                .map(item -> new OrderItemResponseDTO(
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getPriceAtPurchase(),
+                        item.getQuantity()
+                ))
+                .toList();
+
+        return new OrderResponseDTO(
+                order.getId(),
+                order.getStatus(),
+                order.getTotalPrice(),
+                items,
+                order.getCreatedAt().toString()
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrderResponseDTO>> getMyOrders(
             @AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        Long userId = user.getId();
 
-        return orderService.getOrdersForUser(user)
-                .stream()
-                .map(o -> new OrderResponseDTO(
-                        o.getId(),
-                        o.getStatus(),
-                        o.getTotalPrice()
-                ))
+        List<OrderEntity> orders = orderRepository.findByUserId(userId);
+
+        List<OrderResponseDTO> response = orders.stream()
+                .map(this::mapToDto)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponseDTO> getOrderDetails(
@@ -92,7 +129,8 @@ public class OrderController {
                 order.getId(),
                 order.getStatus(),
                 order.getTotalPrice(),
-                items
+                items,
+                order.getCreatedAt().toString()
 
         );
 
