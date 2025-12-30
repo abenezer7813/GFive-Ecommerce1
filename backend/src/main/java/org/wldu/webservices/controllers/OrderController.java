@@ -13,7 +13,9 @@ import org.wldu.webservices.exception.ResourceNotFoundException;
 import org.wldu.webservices.repositories.OrderRepository;
 import org.wldu.webservices.services.imp.OrderServiceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -97,6 +99,13 @@ public class OrderController {
         );
 
         return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/total-orders")
+    public ResponseEntity<Map<String, Integer>> getTotalOrders() {
+        long totalOrders = orderRepository.count();
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalOrders", (int) totalOrders);
+        return ResponseEntity.ok(response);
     }
 
 }

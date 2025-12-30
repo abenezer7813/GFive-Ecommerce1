@@ -35,7 +35,7 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<CartResponseDTO> addToCart(
             @RequestParam Long productId,
-            @RequestParam int quantity,
+            @RequestParam(defaultValue = "1") int quantity,
             @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository
                 .findByEmail(userDetails.getUsername())
