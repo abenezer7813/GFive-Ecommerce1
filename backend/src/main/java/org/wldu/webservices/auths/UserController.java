@@ -1,10 +1,18 @@
 package org.wldu.webservices.auths;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.wldu.webservices.dto.product.ProductResponseDTO;
 import org.wldu.webservices.dto.user.UpdateUserRequest;
 import org.wldu.webservices.dto.user.UserResponseDto;
+import org.wldu.webservices.entities.Product;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -22,6 +30,23 @@ public class UserController {
         User user = userService.getCurrentUser();
 
         return ResponseEntity.ok(new UserResponseDto(user));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<UserResponseDto> getAllUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+        return userService.getAllUsers(pageable).map(UserResponseDto::new);
+
     }
     @PutMapping("/me")
     public ResponseEntity<UserResponseDto> updateCurrentUser(

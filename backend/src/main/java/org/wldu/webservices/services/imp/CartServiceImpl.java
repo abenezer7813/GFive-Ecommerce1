@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Transactional
-    public void addToCart(User user, Long productId, int quantity) {
+    public Cart addToCart(User user, Long productId, int quantity) {
 
         Cart cart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> {
@@ -53,5 +53,17 @@ public class CartServiceImpl implements CartService {
 
         item.setQuantity(item.getQuantity() + quantity);
         cartItemRepository.save(item);
+        return cart;
     }
+    @Transactional
+    public Cart getCartForUser(User user) {
+        return cartRepository.findByUserId(user.getId())
+                .orElseGet(() -> {
+                    Cart cart = new Cart();
+                    cart.setUser(user);
+                    return cartRepository.save(cart);
+                });
+    }
+
+
 }

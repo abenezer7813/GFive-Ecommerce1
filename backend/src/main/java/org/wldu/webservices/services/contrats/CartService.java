@@ -2,10 +2,13 @@ package org.wldu.webservices.services.contrats;
 
 
 import org.wldu.webservices.auths.User;
+import org.wldu.webservices.entities.Cart;
+
 
 public interface CartService {
 
-    void addToCart(User user, Long productId, int quantity);
+    Cart addToCart(User user, Long productId, int quantity);
+    Cart getCartForUser(User user);
 
 }
 

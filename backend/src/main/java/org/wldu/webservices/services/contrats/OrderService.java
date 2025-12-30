@@ -9,5 +9,6 @@ public interface OrderService {
     List<OrderEntity> getOrdersForUser(User user);
 
     OrderEntity checkout(User user);
+
 }
 
