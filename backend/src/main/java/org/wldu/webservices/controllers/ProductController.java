@@ -31,7 +31,7 @@ public class ProductController {
         dto.setPrice(product.getPrice());
         dto.setStockQuantity(product.getStockQuantity());
         dto.setImageUrl(product.getImageUrl());
-
+        dto.setCreatedAt(product.getCreatedAt());
         dto.setCategoryId(product.getCategory().getId());
         dto.setCategoryName(product.getCategory().getName());
 
@@ -49,7 +49,7 @@ public class ProductController {
     }
     // ✅ ADMIN only
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
        Product product= productService.getProduct(id);
        return ResponseEntity.ok(new ProductResponseDTO(product));
@@ -90,6 +90,22 @@ public class ProductController {
     public String buyProduct(@PathVariable Long id) {
         productService.buyProduct(id);
         return "Purchase successful";
+    }
+
+    // ✅ ADMIN only
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductResponseDTO> updateProduct(
+            @PathVariable Long id,
+            @RequestBody @Valid ProductRequestDTO request) {
+
+        // Call service to update
+        Product updatedProduct = productService.updateProduct(id, request);
+
+        // Map entity to DTO
+        ProductResponseDTO responseDTO = mapToResponse(updatedProduct);
+
+        return ResponseEntity.ok(responseDTO);
     }
 }
 

@@ -33,10 +33,11 @@ public class ProductServiceImpl {
 
         Product product = new Product();
         product.setName(productRequest.getName());
+        product.setImageUrl(productRequest.getImageUrl());
         product.setDescription(productRequest.getDescription());
         product.setPrice(productRequest.getPrice());
         product.setStockQuantity(productRequest.getStockQuantity());
-           product.setCategory(category);
+        product.setCategory(category);
 
         return productRepository.save(product);
     }
@@ -73,5 +74,25 @@ public class ProductServiceImpl {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         productRepository.deleteById(id);
+    }
+    public Product updateProduct(Long id, ProductRequestDTO request) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
+        product.setImageUrl(request.getImageUrl());
+
+        // If category can be updated
+        if (request.getCategoryId() != null) {
+            CategoriesEntity category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            product.setCategory(category);
+        }
+
+        return productRepository.save(product);
     }
 }

@@ -20,7 +20,9 @@ export type Product = {
   price: number;
   categoryId: number;
   imageUrl: string;
+  stockQuantity: number; // <-- add this
 };
+
 
 export type AddProduct = {
   id: number;
