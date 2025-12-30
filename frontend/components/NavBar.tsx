@@ -1,4 +1,6 @@
 "use client";
+import { logout } from "@/lib/logout";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -167,7 +169,7 @@ const NavBar = () => {
                   <button
                     className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition-colors duration-200 text-left"
                     onClick={() => {
-                      // Handle logout logic here
+                      logout();
                       setIsProfileOpen(false);
                     }}
                   >
