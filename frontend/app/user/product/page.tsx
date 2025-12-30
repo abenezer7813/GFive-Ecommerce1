@@ -63,9 +63,7 @@ const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
             Explore our latest collection of high-quality items at unbeatable
             prices.
           </p>
-          <button className="bg-white text-amber-500 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-200">
-            Shop Now
-          </button>
+        
         </div>
         {/* Decorative Elements (Optional) */}
         <div className="absolute bottom-0 left-0 w-full h-16 bg-white opacity-10 transform rotate-1"></div>

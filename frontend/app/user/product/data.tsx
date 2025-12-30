@@ -89,4 +89,67 @@ export async function getProductsByCategory(
   }
 }
 
-// Other functions remain the same...
+
+export async function getTotalStock(): Promise<number> {
+  const token = Cookies.get("token");
+
+  const res = await fetch(`${API}/api/dashboard/total-stock`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch total stock: ${res.status} - ${text}`);
+  }
+
+  const data = await res.json();
+  console.log("Fetched total stock:", data);
+
+  // Return the number, not the object
+  return data.totalStockQuantity; 
+}
+
+export async function getTotalUsers(): Promise<number> {
+  const token = Cookies.get("token");
+
+  const res = await fetch(`${API}/users?page=0&size=1`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch total users: ${res.status} - ${text}`);
+  }
+
+  const data = await res.json();
+   
+  // totalElements contains total number of users
+  return data.totalElements;
+}
+
+export async function getTotalOrders(): Promise<number> {
+  const token = Cookies.get("token");
+
+  const res = await fetch(`${API}/api/orders/total-orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch total orders: ${res.status} - ${text}`);
+  }
+
+  const data = await res.json();
+  // The backend returns { totalOrders: 42 }, so extract the number
+  return data.totalOrders;
+}
+

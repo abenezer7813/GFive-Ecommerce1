@@ -23,7 +23,7 @@ export default function Categories({
               onClick={() => onSelect(null)} // null means no filter
               className={`w-full text-left py-3 px-4 rounded-lg font-medium transition-all duration-200
                 ${selectedCategoryId === null
-                  ? "bg-gradient-to-r from-orange-400 via-amber-400 to-amber-500 text-white shadow-lg"
+                  ? " bg-black hover:bg-gray-800 text-white shadow-lg"
                   : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
                 }`}
             >
@@ -36,7 +36,7 @@ export default function Categories({
                 onClick={() => onSelect(category.id)}
                 className={`w-full text-left py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                   selectedCategoryId === category.id
-                    ? "bg-gradient-to-r from-orange-400 via-amber-400 to-amber-500 text-white shadow-lg"
+                    ? "bg-black hover:bg-gray-800 text-white shadow-lg"
                     : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
                 }`}
               >

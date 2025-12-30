@@ -130,7 +130,7 @@ const NavBar = () => {
             </div>
 
             {/* Cart */}
-            <Link href="/cart" className="relative group">
+            <Link href="/user/cart" className="relative group">
               <BsCartCheck size={24} className="text-black hover:text-gray-600 transition-colors duration-300" />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs font-bold min-w-[20px] text-center shadow-lg animate-pulse">

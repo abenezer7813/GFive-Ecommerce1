@@ -3,20 +3,77 @@ import { useCart } from "@/Context/page";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "../../../types/types";
-
-
-
-
-
+import { useState } from "react";
+import Cookies from "js-cookie";
 
 type Props = {
   products: Product[];
 };
 
 export default function ProductsGrid({ products }: Props) {
-  const { addToCart } = useCart();
+  const { addToCart, syncCart } = useCart();
+  const [loadingId, setLoadingId] = useState<number | null>(null);
+  const token = Cookies.get("token");
 
-  
+  const handleBuyNow = async (product: Product) => {
+    if (!token) return alert("Please login to buy now");
+
+    setLoadingId(product.id);
+    try {
+      // 1️⃣ Add product to backend cart
+      await fetch(`https://localhost:8081/api/cart/add?productId=${product.id}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // 2️⃣ Sync cart
+      await syncCart();
+
+      // 3️⃣ Get cart items from backend
+      const cartRes = await fetch("https://localhost:8081/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const cartData = await cartRes.json();
+
+      const cartItems = (cartData.items || []).map((item: any) => ({
+        id: item.productId,
+        title: item.productName,
+        price: item.price,
+        quantity: item.quantity,
+        thumbnail: item.imageUrl,
+      }));
+
+      const totalAmount = cartItems.reduce((sum: number, i: any) => sum + i.price * i.quantity, 0);
+
+      // 4️⃣ Call checkout API
+      const checkoutRes = await fetch("https://localhost:8081/api/orders/checkout", {
+        method: "POST",
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ cartItems, shippingCost: 0, totalAmount })
+      });
+
+      if (!checkoutRes.ok) throw new Error(await checkoutRes.text());
+
+      const orderData = await checkoutRes.json();
+      alert(`Order #${orderData.orderId} placed successfully!`);
+
+      // 5️⃣ Clear cart
+      await fetch("https://localhost:8081/api/cart/clear", {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      await syncCart();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to place order.");
+    } finally {
+      setLoadingId(null);
+    }
+  };
 
   return (
     <div className="w-4/5 p-6">
@@ -26,48 +83,44 @@ export default function ProductsGrid({ products }: Props) {
             key={product.id}
             className="bg-white shadow-lg rounded-2xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[400px]"
           >
-            {/* LINK ONLY ON IMAGE + TEXT */}
             <Link href={`/user/productsDetail/${product.id}`}>
-              <div className="p-5 relative bg-gray-100 rounded-t-2xl">
-                 <Image
-    src={product.imageUrl}
-    alt={product.name}
-    width={200}
-    height={200}
-    className="object-cover rounded-md"
-  />
-                
+              <div className="p-5 relative flex justify-center bg-gray-100 rounded-t-2xl">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={170}
+                  height={200}
+                  className="object-cover rounded-md"
+                />
               </div>
 
               <div className="p-4">
                 <div className="flex justify-between mb-2">
-                  <h3 className="text-lg font-semibold line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <span className="font-bold">
-                    {product.price} ETB
-                  </span>
+                  <h3 className="text-lg font-semibold line-clamp-2">{product.name}</h3>
+                  <span className="font-bold">{product.price} ETB</span>
                 </div>
-                <p className="text-gray-600 text-sm line-clamp-2">
-                  {product.description}
-                </p>
+                <p className="text-gray-600 text-sm line-clamp-2">{product.description}</p>
               </div>
             </Link>
 
-            {/* ACTION BUTTONS */}
             <div className="p-4 mt-auto">
               <div className="flex gap-2">
-                <button onClick={() => addToCart(product)}                  className="flex-1 border border-gray-400 rounded-full py-2 font-semibold hover:bg-gray-100"
->
-  Add to Cart
-</button>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="flex-1 border border-gray-400 rounded-full py-2 font-semibold hover:bg-gray-100"
+                >
+                  Add to Cart
+                </button>
 
-                <button className="flex-1 bg-black text-white rounded-full py-2 font-semibold hover:bg-gray-800">
-                  Buy Now
+                <button
+                  onClick={() => handleBuyNow(product)}
+                  disabled={loadingId === product.id}
+                  className="flex-1 border border-gray-400 rounded-full py-2 font-semibold text-white bg-black hover:bg-gray-800"
+                >
+                  {loadingId === product.id ? "Processing..." : "Buy Now"}
                 </button>
               </div>
             </div>
-
           </div>
         ))}
       </div>
