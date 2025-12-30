@@ -62,7 +62,69 @@ public class CartController {
         );
         return ResponseEntity.ok(cartResponseDTO);
     }
+    @PutMapping("/update")
+    public ResponseEntity<CartResponseDTO> updateCartItem(
+            @RequestParam Long productId,
+            @RequestParam int quantity,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be at least 1. Use delete endpoint to remove item.");
+        }
+
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Cart cart = cartService.updateCartItem(user, productId, quantity);
+
+        List<CartItemResponseDTO> items=cart.getItems().stream()
+                .map(item->new CartItemResponseDTO(
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getProduct().getPrice(),
+                        item.getQuantity(),
+                        item.getProduct().getImageUrl()
+                )).toList();
+
+        BigDecimal totalPrice =items.stream()
+                .map(i->i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        CartResponseDTO cartResponseDTO = new CartResponseDTO(
+                cart.getId(),
+                items,
+                totalPrice
+        );
+        return ResponseEntity.ok(cartResponseDTO);
+    }
+    @DeleteMapping("/remove")
+    public ResponseEntity<CartResponseDTO> removeCartItem(
+            @RequestParam Long productId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Cart cart = cartService.removeCartItem(user, productId);
+
+        List<CartItemResponseDTO> items=cart.getItems().stream()
+                .map(item->new CartItemResponseDTO(
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getProduct().getPrice(),
+                        item.getQuantity(),
+                        item.getProduct().getImageUrl()
+                )).toList();
+
+        BigDecimal totalPrice =items.stream()
+                .map(i->i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        CartResponseDTO cartResponseDTO = new CartResponseDTO(
+                cart.getId(),
+                items,
+                totalPrice
+        );
+        return ResponseEntity.ok(cartResponseDTO);
+    }
     @GetMapping
     public ResponseEntity<CartResponseDTO> getMyCart(
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -109,11 +171,13 @@ public class CartController {
         OrderResponseDTO dto = new OrderResponseDTO(
                 order.getId(),
                 order.getStatus(),
-                order.getTotalPrice()
+                order.getTotalPrice(),
+                order.getCreatedAt().toString()
         );
 
         return ResponseEntity.ok(dto);
     }
+
 
 
 }

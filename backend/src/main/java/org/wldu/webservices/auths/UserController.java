@@ -48,6 +48,7 @@ public class UserController {
         return userService.getAllUsers(pageable).map(UserResponseDto::new);
 
     }
+
     @PutMapping("/me")
     public ResponseEntity<UserResponseDto> updateCurrentUser(
             @RequestBody UpdateUserRequest request,

@@ -9,6 +9,7 @@ public interface CartService {
 
     Cart addToCart(User user, Long productId, int quantity);
     Cart getCartForUser(User user);
-
+    Cart updateCartItem(User user, Long productId, int quantity);
+    Cart removeCartItem(User user, Long productId);
 }
 
