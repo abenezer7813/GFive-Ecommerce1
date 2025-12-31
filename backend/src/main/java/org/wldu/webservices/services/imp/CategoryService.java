@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.wldu.webservices.dto.category.CategoryRequestDto;
 import org.wldu.webservices.dto.category.CategoryResponseDto;
 import org.wldu.webservices.entities.CategoriesEntity;
+import org.wldu.webservices.exception.ConflictException;
 import org.wldu.webservices.repositories.CategoryRepository;
 import org.wldu.webservices.services.contrats.CategoryServiceInt;
 
@@ -53,4 +54,32 @@ public Page<CategoryResponseDto> getAllCategories(Pageable pageable) {
 
         return new CategoryResponseDto(c.getId(), c.getName(), c.getDescription());
     }
+
+    //update category
+    @Override
+    public CategoryResponseDto updateCategory(Long id, CategoryRequestDto request) {
+        CategoriesEntity category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        CategoriesEntity saved = categoryRepository.save(category);
+
+        return new CategoryResponseDto(saved.getId(), saved.getName(),saved.getDescription());
+    }
+    @Override
+    public void deleteCategory(Long id) {
+        CategoriesEntity category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        // Check if category has products
+        if (!category.getProducts().isEmpty()) {
+            throw new ConflictException("Cannot delete category with products");
+        }
+
+        categoryRepository.delete(category);
+    }
+
+
 }
