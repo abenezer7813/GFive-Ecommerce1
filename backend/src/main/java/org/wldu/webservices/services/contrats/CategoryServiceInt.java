@@ -16,5 +16,7 @@ public interface CategoryServiceInt {
     Page<CategoryResponseDto> getAllCategories(Pageable pageable);
 
     CategoryResponseDto getCategory(Long id);
+    CategoryResponseDto updateCategory(Long id, CategoryRequestDto request);
+    void deleteCategory(Long id);
 }
 
