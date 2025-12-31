@@ -63,6 +63,15 @@ public class UserController {
                 new UserResponseDto(updatedUser)
         );
     }
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> updateUserStatus(
+            @PathVariable Long id,
+            @RequestParam boolean enabled) {
+
+        userService.updateUserStatus(id, enabled);
+        return ResponseEntity.noContent().build();
+    }
 
 }
 
