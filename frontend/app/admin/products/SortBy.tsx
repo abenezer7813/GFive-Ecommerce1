@@ -86,7 +86,7 @@ export default function SortBy({
 }, []);
 
   return (
-    <div className="sticky top-20 right-0 z-40 bg-white shadow-sm p-4 flex justify-between">
+    <div className="sticky top-20 right-0 z-50 bg-white shadow-sm p-4 flex justify-between">
       <h1 className="text-2xl font-bold">Products</h1>
 
       <div className="flex gap-3">

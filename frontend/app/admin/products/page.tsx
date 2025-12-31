@@ -62,7 +62,7 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 });
 
   return (
-  <div className="mt-15">
+  <div className="">
   {/* Sticky SortBy */}
  
         <div className="sticky top-0 z-50 bg-white">
@@ -75,7 +75,7 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
         </div>
 
   {/* Main content */}
-  <div className="pt-0 bg-white pb-16 flex">
+  <div className="pt-0 bg-white pb-17 flex">
     {/* Sidebar */}
     <Categories
       categories={categories}
@@ -84,21 +84,21 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
     />
 
     {/* Products grid */}
-    <div className="flex-1 ml-60 mt-18">
+    <div className="flex-1 ml-60 h-screen">
 <div className="w-4/4 p-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {sortedProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white shadow-lg rounded-xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[300px]"
+            className="bg-white shadow-lg rounded-xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[350px]"
           >
             {/* LINK ONLY ON IMAGE + TEXT */}
             <Link href={`/admin/productsDetail/${product.id}`}>
-              <div className="p-5  bg-gray-100 rounded-t-2xl flex justify-center items-center">
+              <div className=" bg-gray-100 rounded-t-2xl flex justify-center items-center">
                 <Image
                   src={product.imageUrl  || "/heroimage.jpg"}
                   alt={product.name}
-                  width={150}
+                  width={200}
                   height={200}
                   className="object-cover rounded-md"
                 />
@@ -121,10 +121,9 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
           </div>
         ))}
       </div>
-    </div>    </div>
-  </div>
-
-  {/* Pagination */}
+      
+    </div>
+    {/* Pagination */}
   <div className="flex justify-center gap-4 my-6">
     <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
       Prev
@@ -141,6 +140,11 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
       Next
     </button>
   </div>
+        </div>
+        
+  </div>
+
+  
 </div>
   );
 }

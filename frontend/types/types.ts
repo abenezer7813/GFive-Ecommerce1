@@ -23,6 +23,17 @@ export type Product = {
   stockQuantity: number; // <-- add this
 };
 
+export type ProductWithDate = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  imageUrl: string;
+  stockQuantity: number; // <-- add this
+  createdAt: string;
+};
+
 
 export type AddProduct = {
   id: number;
@@ -32,4 +43,22 @@ export type AddProduct = {
   stockQuantity: number
   categoryId: number;
   imageUrl: string;
+};
+
+export type User = {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  age: number | null;
+  gender: string | null;
+  roles: string[];
+};
+
+export type OrderSummary = {
+  id: number;
+  userName: string;
+  totalPrice: number;
+  status: string;
+  createdAt?: string;
 };

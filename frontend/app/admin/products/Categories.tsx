@@ -13,7 +13,7 @@ export default function Categories({
   onSelect,
 }: Props) {
   return (
-    <aside className="w-60 fixed top-30 pb-21 h-[calc(100vh-1.5rem)] flex flex-col">
+    <aside className="w-60 fixed top-40 pb-35 h-[calc(100vh-1.5rem)] flex flex-col">
       <div className=" shadow-inner rounded-2xl p-6 flex flex-col flex-1">
         {/* Category List */}
         <ul className="space-y-4 flex-1 overflow-y-auto">

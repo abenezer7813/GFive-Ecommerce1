@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Product, Category } from "../../../types/types";
+import { Product, Category, User } from "../../../types/types";
 import { PageResponse } from "../../../types/page";
 
 const API = "https://localhost:8081";
@@ -153,3 +153,31 @@ export async function getTotalOrders(): Promise<number> {
   return data.totalOrders;
 }
 
+export async function getUsers(
+  page: number,
+  size: number,
+  sortField: "firstName" | "email" | "age" | "gender" | "createdAt",
+  sortOrder: "asc" | "desc"
+) {
+  const token = Cookies.get("token");
+  if (!token) throw new Error("No token");
+
+  const url = `${API}/users?page=${page}&size=${size}&sortBy=${sortField}&direction=${sortOrder}`;
+
+  console.log("Fetching users:", url);
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Backend error:", errorText);
+    throw new Error(errorText);
+  }
+
+  return res.json();
+}
