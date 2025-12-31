@@ -95,6 +95,13 @@ public class UserService {
 
         return userRepository.save(user);
     }
+    public void updateUserStatus(Long id, boolean enabled) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setEnabled(enabled);
+        userRepository.save(user);
+    }
 
 }
 
