@@ -3,8 +3,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
-  gender?: string | null;
-  age?: number | null;
+  gender?: string;
+  age?: number;
   roles: string[];
-  createdAt: string; // ✅ ISO date from backend
+  createdAt?: string;
+  enabled: boolean; // <-- Add this
 };

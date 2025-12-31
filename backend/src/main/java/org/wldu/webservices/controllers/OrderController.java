@@ -1,5 +1,6 @@
 package org.wldu.webservices.controllers;
 
+import org.hibernate.query.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -147,6 +148,7 @@ public class OrderController {
         response.put("totalOrders", (int) totalOrders);
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/latest")
     public ResponseEntity<List<OrderResponseDTO>> getLatestOrders() {

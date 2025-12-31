@@ -90,7 +90,7 @@ const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
         {sortedProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white shadow-lg rounded-xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[350px]"
+            className="bg-white shadow-lg rounded-xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[300px]"
           >
             {/* LINK ONLY ON IMAGE + TEXT */}
             <Link href={`/admin/productsDetail/${product.id}`}>

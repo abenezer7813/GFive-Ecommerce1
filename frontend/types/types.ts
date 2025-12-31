@@ -14,6 +14,7 @@ export type Category = {
 };
 
 export type Product = {
+  createdAt: string | number | Date;
   id: number;
   name: string;
   description: string;

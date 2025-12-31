@@ -40,7 +40,7 @@ const LatestUsers = () => {
 
   return (
     <div className="bg-white rounded-xl shadow p-4">
-      <h2 className="text-xl font-bold mb-4">Latest Users</h2>
+      <h2 className="text-xl font-bold mb-4">Recent Users</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead className="text-black">

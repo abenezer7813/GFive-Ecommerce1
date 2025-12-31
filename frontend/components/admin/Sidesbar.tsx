@@ -14,6 +14,7 @@ const menuItems = [
   { name: "Customers", href: "/admin/customers" },
   { name: "Products", href: "/admin/products" },
   { name: "Orders", href: "/admin/orders" },
+  { name: "Categories", href: "/admin/categories" },
 ];
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {

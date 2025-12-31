@@ -22,11 +22,20 @@ const formatDate = (iso?: string) => {
   if (!iso) return "Date not available";
   try {
     const d = new Date(iso);
-    return d.toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "numeric" });
+    return d.toLocaleString(undefined, {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, // use 24-hour format, set to true for 12-hour
+    });
   } catch {
     return "Date not available";
   }
 };
+
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -79,7 +88,7 @@ export default function LatestOrders() {
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">Latest Orders</h2>
+      <h2 className="text-xl font-bold mb-4">Recent Orders</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left ">
           <thead className="">

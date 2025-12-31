@@ -158,7 +158,7 @@ const NavBar = () => {
                     <span className="text-gray-700 font-medium">Profile</span>
                   </Link>
                   <Link
-                    href="/user/orders/"
+                    href="/orders"
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors duration-200"
                     onClick={() => setIsProfileOpen(false)}
                   >

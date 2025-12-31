@@ -3,14 +3,15 @@ import { useCart } from "@/Context/page";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "../../../types/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 type Props = {
   products: Product[];
+  loading?: boolean; // new prop to indicate loading state
 };
 
-export default function ProductsGrid({ products }: Props) {
+export default function ProductsGrid({ products, loading = false }: Props) {
   const { addToCart, syncCart } = useCart();
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const token = Cookies.get("token");
@@ -20,16 +21,13 @@ export default function ProductsGrid({ products }: Props) {
 
     setLoadingId(product.id);
     try {
-      // 1️⃣ Add product to backend cart
       await fetch(`https://localhost:8081/api/cart/add?productId=${product.id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // 2️⃣ Sync cart
       await syncCart();
 
-      // 3️⃣ Get cart items from backend
       const cartRes = await fetch("https://localhost:8081/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -45,7 +43,6 @@ export default function ProductsGrid({ products }: Props) {
 
       const totalAmount = cartItems.reduce((sum: number, i: any) => sum + i.price * i.quantity, 0);
 
-      // 4️⃣ Call checkout API
       const checkoutRes = await fetch("https://localhost:8081/api/orders/checkout", {
         method: "POST",
         headers: { 
@@ -60,7 +57,6 @@ export default function ProductsGrid({ products }: Props) {
       const orderData = await checkoutRes.json();
       alert(`Order #${orderData.orderId} placed successfully!`);
 
-      // 5️⃣ Clear cart
       await fetch("https://localhost:8081/api/cart/clear", {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -75,68 +71,76 @@ export default function ProductsGrid({ products }: Props) {
     }
   };
 
+  // Skeleton array
+  const skeletons = Array.from({ length: 8 });
+
   return (
-    <div className="w-full md:w-4/5 p-4 md:p-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
-        {products.map((product, index) => (
-          <div
-            key={product.id}
-            className="bg-gradient-to-b from-white to-gray-50 shadow-md rounded-2xl flex flex-col overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 min-h-[400px] animate-fade-in"
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <Link href={`/user/productsDetail/${product.id}`}>
-              <div className="p-2 md:p-3 relative flex justify-center bg-gray-100 rounded-t-2xl">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  width={190}
-                  height={10}
-                  className="object-contain rounded-md w-full h-38 md:h-40"
-                />
-              </div>
-
-              <div className="p-4 flex-grow">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg md:text-xl font-bold line-clamp-2 text-gray-900 leading-tight">
-                    {product.name}
-                  </h3>
-                  <span className="font-bold text-lg text-black drop-shadow-sm">
-                    {product.price} ETB
-                  </span>
+    <div className="w-4/5 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {loading
+          ? skeletons.map((_, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 animate-pulse rounded-2xl min-h-[400px] flex flex-col"
+              >
+                <div className="h-48 bg-gray-300 rounded-t-2xl mb-4"></div>
+                <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <div className="flex-1 h-10 bg-gray-300 rounded-full"></div>
+                    <div className="flex-1 h-10 bg-gray-300 rounded-full"></div>
+                  </div>
                 </div>
-                <p className="text-gray-600 text-sm md:text-base line-clamp-2 leading-relaxed">
-                  {product.description}
-                </p>
               </div>
-            </Link>
+            ))
+          : products.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white shadow-lg rounded-2xl flex flex-col overflow-hidden hover:shadow-xl transition-shadow min-h-[400px]"
+              >
+                <Link href={`/user/productsDetail/${product.id}`}>
+                  <div className="p-5 relative flex justify-center bg-gray-100 rounded-t-2xl">
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.name}
+                      width={170}
+                      height={200}
+                      className="object-cover rounded-md"
+                    />
+                  </div>
 
-            <div className="p-4 mt-auto">
-              <div className="flex flex-col sm:flex-row gap-2">
-                <button
-                  onClick={() => addToCart(product)}
-                  className="flex-1 border rounded-xl border-gray-300 py-3 font-semibold text-gray-700 hover:bg-gray-100 hover:border-gray-400 transition-all duration-300 transform hover:scale-105 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-                >
-                  Add to Cart
-                </button>
+                  <div className="p-4">
+                    <div className="flex justify-between mb-2">
+                      <h3 className="text-lg font-semibold line-clamp-2">{product.name}</h3>
+                      <span className="font-bold">{product.price} ETB</span>
+                    </div>
+                    <p className="text-gray-600 text-sm line-clamp-2">{product.description}</p>
+                  </div>
+                </Link>
 
-                <button
-                  onClick={() => handleBuyNow(product)}
-                  disabled={loadingId === product.id}
-                  className="flex-1 border order-black  rounded-xl py-3 font-semibold text-white bg-black hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center"
-                >
-                  {loadingId === product.id ? (
-                    <>
-                      <div className="animate-spin border rounded-xl h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Processing...
-                    </>
-                  ) : (
-                    "Buy Now"
-                  )}
-                </button>
+                <div className="p-4 mt-auto">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="flex-1 border border-gray-400 rounded-full py-2 font-semibold hover:bg-gray-100"
+                    >
+                      Add to Cart
+                    </button>
+
+                    <button
+                      onClick={() => handleBuyNow(product)}
+                      disabled={loadingId === product.id}
+                      className="flex-1 border border-gray-400 rounded-full py-2 font-semibold text-white bg-black hover:bg-gray-800"
+                    >
+                      {loadingId === product.id ? "Processing..." : "Buy Now"}
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
       </div>
     </div>
   );

@@ -90,6 +90,7 @@ export async function getProductsByCategory(
 }
 
 
+
 export async function getTotalStock(): Promise<number> {
   const token = Cookies.get("token");
 
@@ -181,3 +182,66 @@ export async function getUsers(
 
   return res.json();
 }
+
+const getToken = () => Cookies.get("token") || "";
+
+export async function createCategory(category: { name: string; description?: string }) {
+  const res = await fetch("https://localhost:8081/categories", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`, // <-- call the function
+    },
+    body: JSON.stringify(category),
+  });
+
+  if (!res.ok) throw new Error("Failed to create category");
+  return res.json();
+}
+
+export async function updateCategory(id: number, category: Category) {
+  const res = await fetch(`${API}/categories/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(category),
+  });
+  if (!res.ok) throw new Error("Failed to update category");
+  return res.json();
+}
+
+export async function deleteCategory(id: number) {
+  const res = await fetch(`https://localhost:8081/categories/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  if (!res.ok) {
+    // parse backend error message
+    const errorData = await res.json();
+    throw errorData; // this contains { status, message, timestamp }
+  }
+
+  return true;
+}
+
+export const toggleUserStatus = async (id: number, enabled: boolean) => {
+  const token = "YOUR_AUTH_TOKEN"; // Or use Cookies.get("token")
+  const res = await fetch(`https://localhost:8081/api/users/${id}/status`, {
+    method: "PATCH", // or PUT depending on backend
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ enabled }),
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+};
+
