@@ -1,90 +1,87 @@
-import React from "react";
-import AboutHero from "../../components/AboutHero";
-import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
-import { Users, Truck, Star } from "lucide-react";
+// pages/about.tsx (or app/about/page.tsx if using app router)
+import Link from "next/link";
+import Image from "next/image";
+import NavBar from "@/components/NavBar";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen w-full bg-slate-50 p-6 dark:bg-gray-900 dark:text-gray-100">
-      <section className="max-w-6xl mx-auto">
-        <AboutHero />
-
-        <div className="mt-10 text-center">
-          <h2 className="text-4xl font-bold mb-4 animate-slide-down">About Kanzy Shop</h2>
-          <p className="text-lg max-w-2xl mx-auto animate-fade-in-up">
-            Kanzy Shop empowers local Ethiopian artisans by delivering high-quality products directly to customers nationwide.
+    <div className="min-h-screen bg-white">
+      <NavBar/>
+      {/* 🏠 INTRO SECTION */}
+      <section className="py-16 px-6 my-8 bg-gray-50">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">About Us</h1>
+          <p className="text-lg md:text-xl text-gray-600">
+            We're passionate about bringing you the best products with quality, trust, and innovation.
           </p>
         </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <Card className="animate-fade-in-up">
-            <CardHeader>
-              <CardTitle>
-                <Users className="h-5 w-5 text-indigo-600" /> Our People
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              Dedicated team delivering premium e-commerce experiences and best-in-class customer support.
-            </CardContent>
-          </Card>
-
-          <Card className="animate-fade-in-up delay-100">
-            <CardHeader>
-              <CardTitle>
-                <Truck className="h-5 w-5 text-emerald-500" /> Reliable Shipping
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              Fast, trackable shipping and hassle-free returns for a smooth shopping experience.
-            </CardContent>
-          </Card>
-
-          <Card className="animate-fade-in-up delay-200">
-            <CardHeader>
-              <CardTitle>
-                <Star className="h-5 w-5 text-amber-500" /> Quality Promise
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              Curated products and rigorous quality assurance, designed for longevity and delight.
-            </CardContent>
-          </Card>
-        </div>
-
-        <section className="mt-12 grid gap-8 md:grid-cols-2">
-          <article className="rounded-2xl bg-white/60 backdrop-blur-md shadow-md p-6 animate-fade-in-up">
-            <h3 className="text-2xl font-semibold mb-3">Our Story</h3>
-            <p className="text-sm leading-relaxed">
-              Founded with a simple idea: make great Ethiopian products accessible online while delivering exceptional support.
-            </p>
-            <h4 className="mt-6 text-lg font-medium">What drives us</h4>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li>Human-centered design and effortless shopping flows</li>
-              <li>Sustainable sourcing and long-term product value</li>
-              <li>Fast, transparent support and hassle-free returns</li>
-            </ul>
-          </article>
-
-          <aside className="space-y-4">
-            <Card className="animate-fade-in-up">
-              <CardHeader>
-                <CardTitle>Press & Partnerships</CardTitle>
-              </CardHeader>
-              <CardContent>
-                Interested in collaborating? Reach out for wholesale, press inquiries, and integrations.
-              </CardContent>
-            </Card>
-            <Card className="animate-fade-in-up delay-100">
-              <CardHeader>
-                <CardTitle>Careers</CardTitle>
-              </CardHeader>
-              <CardContent>
-                We’re building something special. Check our careers page for openings in product, design, and support.
-              </CardContent>
-            </Card>
-          </aside>
-        </section>
       </section>
-    </main>
+
+      {/* 📖 OUR STORY */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-3xl font-bold mb-4 text-black">Our Story</h2>
+            <p className="text-gray-600 mb-4">
+              Founded in 2023, our e-commerce platform started with a simple mission: to make shopping easy, affordable, and enjoyable. 
+              We source products from trusted suppliers worldwide, ensuring every item meets our high standards for quality and sustainability.
+            </p>
+            <p className="text-gray-600">
+              From electronics to fashion, home goods to sports gear, we're here to help you find what you love. Join thousands of satisfied customers 
+              who trust us for fast shipping, secure payments, and exceptional service.
+            </p>
+          </div>
+          
+        </div>
+      </section>
+
+      {/* 🌟 OUR VALUES */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black">Our Values</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🌍</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Sustainability</h3>
+              <p className="text-gray-600">We prioritize eco-friendly practices and ethical sourcing.</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-4">🤝</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Customer First</h3>
+              <p className="text-gray-600">Your satisfaction is our top priority, with 24/7 support.</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-4">🚀</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Innovation</h3>
+              <p className="text-gray-600">We constantly evolve to bring you the latest trends and tech.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 👥 OUR TEAM */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black">Meet Our Team</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Abenezer Tariku", role: "CEO", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60" },
+              { name: "Yonas Aklilu", role: "CTO", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60" },
+              { name: "Zekarias Wereket", role: "Head of Sales", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=60" },
+            ].map((member, index) => (
+              <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden text-center">
+              
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-black">{member.name}</h3>
+                  <p className="text-gray-600">{member.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+   
+    </div>
   );
 }

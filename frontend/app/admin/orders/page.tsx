@@ -64,7 +64,7 @@ export default function LatestOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("https://localhost:8081/api/orders/", {
+        const res = await fetch("https://localhost:8081/api/orders/latest", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

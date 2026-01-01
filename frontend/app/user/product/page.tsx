@@ -22,7 +22,7 @@ const [loading, setLoading] = useState(true);
 useEffect(() => {
   async function loadData() {
     setLoading(true); // start loading
-    const productsPage = await getProducts(page, 3);
+    const productsPage = await getProducts(page, 10);
     const categoriesPage = await getCategories(0, 50);
 
     setProducts(productsPage.content);

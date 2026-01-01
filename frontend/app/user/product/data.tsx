@@ -55,7 +55,7 @@ export async function getProductById(id: number): Promise<Product> {
 export async function getProductsByCategory(
   categoryId: number,
   page = 0,
-  size = 4
+  size = 20
 ): Promise<PageResponse<Product>> {
   try {
     const token = Cookies.get("token");
@@ -229,19 +229,15 @@ export async function deleteCategory(id: number) {
 
   return true;
 }
-
 export const toggleUserStatus = async (id: number, enabled: boolean) => {
-  const token = "YOUR_AUTH_TOKEN"; // Or use Cookies.get("token")
-  const res = await fetch(`https://localhost:8081/api/users/${id}/status`, {
-    method: "PATCH", // or PUT depending on backend
+  const token = Cookies.get("token");
+  const res = await fetch(`https://localhost:8081/users/${id}/status?enabled=${enabled}`, {
+    method: "PUT", // must match backend
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ enabled }),
   });
 
   if (!res.ok) throw new Error(await res.text());
-  return res.json();
+  return;
 };
-

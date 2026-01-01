@@ -1,14 +1,18 @@
 "use client";
+
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import type { AddProduct, Product, Category } from "../../../types/types";
+import type { AddProduct, Category } from "../../../types/types";
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
-import { getProducts, getCategories } from "../../user/product/data";
-import Categories from "./Categories";
+import { getCategories } from "../../user/product/data";
 
 type Props = {
   field: "name" | "price" | "createdAt";
   order: "asc" | "desc";
+
+  selectedCategoryId: number | null;
+  onCategoryChange: (id: number | null) => void;
+
   onFieldChange: (f: "name" | "price" | "createdAt") => void;
   onOrderChange: (o: "asc" | "desc") => void;
 };
@@ -16,14 +20,16 @@ type Props = {
 export default function SortBy({
   field,
   order,
-
+  selectedCategoryId,
+  onCategoryChange,
   onFieldChange,
   onOrderChange,
 }: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const [form, setForm] = useState<Omit<AddProduct, "id">>({
     name: "",
     description: "",
@@ -32,19 +38,30 @@ export default function SortBy({
     categoryId: 0,
     imageUrl: "",
   });
-  async function loadData() {
-    const categoriesPage = await getCategories(0, 50);
 
-    // 👇 THIS IS THE MOST IMPORTANT PART
-    setCategories(categoriesPage.content);
-  }
+  // 🔹 LOAD CATEGORIES
+  useEffect(() => {
+    (async () => {
+      const res = await getCategories(0, 50);
+      setCategories(res.content);
+    })();
+  }, []);
+
+  // 🔹 FORM HANDLERS
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+
     try {
       const token = Cookies.get("token");
+
       const res = await fetch("https://localhost:8081/api/products", {
         method: "POST",
         headers: {
@@ -58,7 +75,9 @@ export default function SortBy({
           categoryId: Number(form.categoryId),
         }),
       });
-      if (!res.ok) throw new Error("Failed to add product");
+
+      if (!res.ok) throw new Error();
+
       setMessage("✅ Product added successfully");
       setForm({
         name: "",
@@ -69,61 +88,76 @@ export default function SortBy({
         imageUrl: "",
       });
       setIsSidebarOpen(false);
-    } catch (err) {
-      setMessage("❌ Error adding product");
+    } catch {
+      setMessage("❌ Failed to add product");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-  useEffect(() => {
-  loadData();
-}, []);
-
   return (
-    <div className="sticky top-20 right-0 z-50 bg-white shadow-sm p-4 flex justify-between">
-      <h1 className="text-2xl font-bold">Products</h1>
+    <>
+      {/* 🔝 TOP BAR */}
+      <div className="bg-white shadow-sm p-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Products</h1>
 
-      <div className="flex gap-3">
-        <select
-          value={field}
-          onChange={(e) =>
-            onFieldChange(e.target.value as "name" | "price" | "createdAt")
-          }
-          className="border rounded-lg px-4 py-2"
-        >
-          <option value="name">Name</option>
-          <option value="price">Price</option>
-          <option value="date">date</option>
-        </select>
+        <div className="flex gap-3 items-center">
+          {/* 📂 CATEGORY */}
+          <select
+            value={selectedCategoryId ?? ""}
+            onChange={(e) =>
+              onCategoryChange(
+                e.target.value ? Number(e.target.value) : null
+              )
+            }
+            className="border rounded-lg px-4 py-2"
+          >
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
 
-        <button
-          onClick={() => onOrderChange(order === "asc" ? "desc" : "asc")}
-          className="border rounded-lg p-2"
-        >
-          {order === "asc" ? <FaSortAmountDown /> : <FaSortAmountUp />}
-        </button>
-        {/* Add Product Button */}
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="w-fit py-1 px-4 text-white bg-black rounded-xl"
-        >
-          Add Product
-        </button>
+          {/* 🔃 SORT FIELD */}
+          <select
+            value={field}
+            onChange={(e) =>
+              onFieldChange(e.target.value as "name" | "price" | "createdAt")
+            }
+            className="border rounded-lg px-4 py-2"
+          >
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="createdAt">Date</option>
+          </select>
+
+          {/* 🔼🔽 SORT ORDER */}
+          <button
+            onClick={() =>
+              onOrderChange(order === "asc" ? "desc" : "asc")
+            }
+            className="border rounded-lg p-2"
+          >
+            {order === "asc" ? <FaSortAmountDown /> : <FaSortAmountUp />}
+          </button>
+
+          {/* ➕ ADD PRODUCT */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="px-4 py-2 bg-black text-white rounded-xl"
+          >
+            Add Product
+          </button>
+        </div>
       </div>
-      {/* Add Product Sidebar */}
+
+      {/* 🧾 ADD PRODUCT SIDEBAR */}
       {isSidebarOpen && (
-        <aside className="fixed top-0 right-0 z-50 w-[500px] h-screen bg-white shadow-2xl p-6 flex flex-col animate-fade-in">
-          {/* Header */}
+        <aside className="fixed top-0 right-0 z-50 w-[480px] h-screen bg-white shadow-2xl p-6 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-semibold text-black">
-              Add New Product
-            </h1>
+            <h2 className="text-xl font-semibold">Add New Product</h2>
             <button
               onClick={() => setIsSidebarOpen(false)}
               className="text-2xl font-bold text-red-500"
@@ -132,94 +166,92 @@ export default function SortBy({
             </button>
           </div>
 
-          {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col flex-1 gap-4 overflow-y-auto"
+            className="flex flex-col gap-4 flex-1 overflow-y-auto"
           >
             <input
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="Product Name"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              placeholder="Product name"
+              className="border rounded-lg px-4 py-2"
               required
             />
+
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
               placeholder="Description"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
               rows={4}
+              className="border rounded-lg px-4 py-2"
               required
             />
+
             <input
               name="price"
               type="number"
               value={form.price}
               onChange={handleChange}
               placeholder="Price"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              className="border rounded-lg px-4 py-2"
               required
             />
+
             <input
               name="stockQuantity"
               type="number"
               value={form.stockQuantity}
               onChange={handleChange}
-              placeholder="Stock Quantity"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              placeholder="Stock quantity"
+              className="border rounded-lg px-4 py-2"
               required
             />
+
             <select
-              name="categoryId"
               value={form.categoryId}
               onChange={(e) =>
-                setForm({
-                  ...form,
-                  categoryId: Number(e.target.value),
-                })
+                setForm({ ...form, categoryId: Number(e.target.value) })
               }
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              className="border rounded-lg px-4 py-2"
               required
             >
               <option value={0} disabled>
-                Select Category
+                Select category
               </option>
-
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
                 </option>
               ))}
             </select>
 
-            
             <input
               name="imageUrl"
               value={form.imageUrl}
               onChange={handleChange}
               placeholder="Image URL"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+              className="border rounded-lg px-4 py-2"
               required
             />
 
-            {/* Submit Button at Bottom */}
-            <div className="mt-auto">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition"
-              >
-                {loading ? "Adding..." : "Add Product"}
-              </button>
-            </div>
-          </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-auto bg-black text-white py-2 rounded-lg"
+            >
+              {loading ? "Adding..." : "Add Product"}
+            </button>
 
-          {message && <p className="mt-4 text-sm text-gray-700">{message}</p>}
+            {message && (
+              <p className="text-sm text-center text-gray-600">
+                {message}
+              </p>
+            )}
+          </form>
         </aside>
       )}
-    </div>
+    </>
   );
 }

@@ -24,6 +24,16 @@ export type Product = {
   stockQuantity: number; // <-- add this
 };
 
+export type Productfor = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  imageUrl: string;
+  stockQuantity: number; // <-- add this
+};
+
 export type ProductWithDate = {
   id: number;
   name: string;

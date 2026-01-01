@@ -1,115 +1,102 @@
-
+// pages/index.tsx (or app/page.tsx if using app router)
 import Link from "next/link";
 import Image from "next/image";
 
-const categories = [
-  "Electronics",
-  "Fashion",
-  "Shoes",
-  "Accessories",
-];
-
-const products = [
-  {
-    id: 1,
-    name: "Smartphone",
-    price: "$499",
-    image: "/products/phone.jpg",
-  },
-  {
-    id: 2,
-    name: "Sneakers",
-    price: "$89",
-    image: "/products/shoes.jpg",
-  },
-  {
-    id: 3,
-    name: "Headphones",
-    price: "$129",
-    image: "/products/headphones.jpg",
-  },
-  {
-    id: 4,
-    name: "Backpack",
-    price: "$59",
-    image: "/products/bag.jpg",
-  },
-];
-
-export default function LAndingPAge() {
+export default function LandingPage() {
   return (
-    <>
-<nav className="flex justify-between items-center px-8 py-4 shadow">
-      <h1 className="text-2xl font-bold text-blue-600">
-        G5Shop
-      </h1>
-
-      <ul className="flex gap-6 font-medium">
-        <li className="cursor-pointer hover:text-blue-600">Home</li>
-        <li className="cursor-pointer hover:text-blue-600">Shop</li>
-        <li className="cursor-pointer hover:text-blue-600">About</li>
-        <li className="cursor-pointer hover:text-blue-600">Contact</li>
-        <li className="cursor-pointer hover:text-blue-600">
-  <a href="/cart">Cart</a>
-</li>
-
-      </ul>
-    </nav>
- <section className="bg-gray-100 py-20 text-center">
-      <h1 className="text-4xl md:text-5xl font-bold mb-4">
-       በምርጥ ምርጥ እቃዎች የታጀበ ሱቅ ባይገዙም እያዩ ዘና ይበሉ!G5 SHOP .
-      </h1>
-
-      <p className="text-gray-600 mb-6 max-w-xl mx-auto">
-     G5 shop ኑ ወደ እኛ በተመጣጣኝ ዋጋ የፈለጉትን ነገር በሚመች ዋጋ ያገኙታል እርስዎ ብቻ G5 shop ይምጡ ይደሰታሉ!!G5 SHOP
-      </p>
-
-      <button className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
-        Shop Now
-      </button>
-    </section>      \
-      <section className="py-16 px-8">
-      <h2 className="text-2xl font-bold text-center mb-10">
-        Shop by Category
-      </h2>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {categories.map((cat) => (
-          <div
-            key={cat}
-            className="border rounded-lg p-6 text-center cursor-pointer hover:shadow-lg transition"
-          >
-            <p className="font-semibold">{cat}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-       <section className="bg-gray-50 py-16 px-8">
-      <h2 className="text-2xl font-bold text-center mb-10">
-        Featured Products
-      </h2>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`}
-            className="border rounded-lg p-4 hover:shadow-lg transition"
-          >
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={300}
-              height={200}
-              className="rounded mb-4"
-            />
-
-            <h3 className="font-semibold">{product.name}</h3>
-            <p className="text-blue-600">{product.price}</p>
+    <div className="min-h-screen bg-white">
+      {/* 🧭 HEADER NAVIGATION */}
+      <header className="bg-black text-white py-4 px-6">
+        <div className="max-w-6xl  flex justify-between items-center">
+          <Link href="/auth/login">
+            <button className="bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
+              Sign In
+            </button>
           </Link>
-        ))}
-      </div>
-    </section>
-    </>
+        </div>
+      </header>
+
+      {/* 🏠 HERO SECTION */}
+      <section className="relative bg-black text-white py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            Discover Amazing Products
+          </h1>
+          <p className="text-lg md:text-xl mb-8 text-gray-300">
+            Shop the latest trends with fast shipping, secure payments, and unbeatable prices.
+          </p>
+          <Link href="/auth/login">
+            <button className="bg-white text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">
+              Shop Now
+            </button>
+          </Link>
+        </div>
+        {/* Optional: Add a hero image */}
+        <div className="absolute inset-0 opacity-20">
+          <Image
+            src="/heroimage.jpg" // Replace with your hero image
+            alt="Hero Background"
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
+      </section>
+
+      {/* 🛍️ FEATURED CATEGORIES */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black">Shop by Category</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Example Categories - Replace with dynamic data if needed */}
+            {[
+              { name: "Electronics", image: "/electronicss.jpg", link: "/auth/login" },
+              { name: "Clothing", image: "/clothing.jpg", link: "/auth/login" },
+              { name: "Home & Garden", image: "/homes.jpg", link: "/auth/login" },
+              { name: "Sports", image: "/sports.jpg", link: "/auth/login" },
+            ].map((category, index) => (
+              <Link key={index} href={category.link}>
+                <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition cursor-pointer border border-gray-200">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    width={300}
+                    height={200}
+                    className="object-cover"
+                  />
+                  <div className="p-4 text-center">
+                    <h3 className="text-lg font-semibold text-black">{category.name}</h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ✨ BENEFITS SECTION */}
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black">Why Choose Us?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🚚</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Free Shipping</h3>
+              <p className="text-gray-600">On orders over 500 ETB. Delivered to your door.</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-4">🔒</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Secure Payments</h3>
+              <p className="text-gray-600">100% secure checkout with multiple payment options.</p>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl mb-4">⭐</div>
+              <h3 className="text-xl font-semibold mb-2 text-black">Quality Guaranteed</h3>
+              <p className="text-gray-600">Top-rated products with easy returns.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
   );
 }

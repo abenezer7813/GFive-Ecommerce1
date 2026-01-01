@@ -44,17 +44,9 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/">
-              <Image
-                src="/logoone.png"
-                alt="logo"
-                width={52}
-                height={40}
-                className="h-10 w-auto hover:opacity-80 transition-opacity duration-300"
-              />
-            </Link>
-          </div>
+          <div className="">
+  
+</div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex space-x-8">
@@ -65,22 +57,16 @@ const NavBar = () => {
               Home
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
+            
             <Link
-              href="#"
-              className="text-black hover:text-gray-600 transition-colors duration-300 font-semibold relative group"
-            >
-              Products
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link
-              href="#"
+              href="/user/about"
               className="text-black hover:text-gray-600 transition-colors duration-300 font-semibold relative group"
             >
               About
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
-              href="#"
+              href="/user/contact"
               className="text-black hover:text-gray-600 transition-colors duration-300 font-semibold relative group"
             >
               Contact
