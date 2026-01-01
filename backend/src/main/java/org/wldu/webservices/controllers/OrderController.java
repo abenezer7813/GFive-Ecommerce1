@@ -1,5 +1,8 @@
 package org.wldu.webservices.controllers;
 
+import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.wldu.webservices.auths.UserRepository;
 import org.wldu.webservices.dto.order.OrderItemResponseDTO;
@@ -52,7 +55,7 @@ public class OrderController {
         return ResponseEntity.ok(dto);
     }
 
-//    @GetMapping()
+    //    @GetMapping()
 //    public List<OrderResponseDTO> myOrders(
 //            @AuthenticationPrincipal UserDetails userDetails) {
 //
@@ -145,5 +148,19 @@ public class OrderController {
         response.put("totalOrders", (int) totalOrders);
         return ResponseEntity.ok(response);
     }
+
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<OrderResponseDTO>> getLatestOrders() {
+        Pageable limit = PageRequest.of(0, 10); // First page, 10 orders
+        List<OrderEntity> latestOrders = orderRepository.findAllByOrderByCreatedAtDesc(limit);
+
+        List<OrderResponseDTO> response = latestOrders.stream()
+                .map(this::mapToDto)  // reuse your existing private mapper
+                .toList();
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }
