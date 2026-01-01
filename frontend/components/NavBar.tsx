@@ -40,18 +40,27 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-3 right-3 z-50 bg-white shadow-xl border-b rounded-b-2xl border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-0 left-3 right-3 z-50 mx-25 bg-white shadow-xl border-b rounded-b-2xl border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="">
+            <div className="flex-shrink-0">
+            
+             <h1 className="font-bold text-2xl">
+              Kanzy's
+             </h1>
+             <h1 className="text-gray-500 text-sm">
+              E-commerce
+             </h1>
+          </div>
   
 </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex space-x-8">
             <Link
-              href="#"
+              href="/user/product"
               className="text-black hover:text-gray-600 transition-colors duration-300 font-semibold relative group"
             >
               Home
@@ -129,7 +138,7 @@ const NavBar = () => {
             <div className="relative">
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="text-black hover:text-gray-600 transition-colors duration-300 focus:outline-none"
+                className="text-black mt-2 hover:text-gray-600 transition-colors duration-300 focus:outline-none"
               >
                 <FaUser size={20} />
               </button>

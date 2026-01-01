@@ -13,6 +13,7 @@ import org.wldu.webservices.dto.user.UserResponseDto;
 import org.wldu.webservices.entities.Product;
 
 import java.util.List;
+@CrossOrigin(origins = "http://localhost:3000") // your frontend
 
 @RestController
 @RequestMapping("/users")

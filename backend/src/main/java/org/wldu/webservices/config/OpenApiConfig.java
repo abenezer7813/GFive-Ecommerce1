@@ -22,7 +22,7 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("E-Spurt API")
+                        .title("Kanzy's")
                         .description("E-commerce backend with JWT Authentication & Role-based Authorization")
                         .version("1.0.0")
                 )

@@ -16,11 +16,17 @@ public class UserResponseDto {
     private Integer age;
     private String gender;
     private String createdAt; // ISO string for frontend
+    private Boolean enabled; // <-- make sure this exists
+
     private Set<String> roles;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public UserResponseDto() {}
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
     public UserResponseDto(User user) {
         this.id = user.getId();
@@ -29,6 +35,8 @@ public class UserResponseDto {
         this.lastName = user.getLastName();
         this.age = user.getAge();
         this.gender = user.getGender();
+        this.enabled = user.isEnabled();
+
         this.roles = user.getRoles()
                 .stream()
                 .map(Role::getName)
