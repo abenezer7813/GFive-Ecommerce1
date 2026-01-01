@@ -1,7 +1,9 @@
 package org.wldu.webservices.controllers;
 
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.wldu.webservices.dto.product.ProductRequestDTO;
 import org.wldu.webservices.dto.product.ProductResponseDTO;
@@ -108,6 +110,8 @@ public class ProductController {
 
         return ResponseEntity.ok(responseDTO);
     }
+
+
 }
 
 

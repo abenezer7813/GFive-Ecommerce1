@@ -37,16 +37,19 @@ public class UserController {
     public Page<UserResponseDto> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "firstName") String sortBy,
             @RequestParam(defaultValue = "asc") String direction
     ) {
-        Sort sort = direction.equalsIgnoreCase("desc")
-                ? Sort.by(sortBy).descending()
-                : Sort.by(sortBy).ascending();
+        Sort sort = Sort.by(
+                direction.equalsIgnoreCase("desc")
+                        ? Sort.Order.desc(sortBy).ignoreCase()
+                        : Sort.Order.asc(sortBy).ignoreCase()
+        );
+
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-        return userService.getAllUsers(pageable).map(UserResponseDto::new);
-
+        return userService.getAllUsers(pageable)
+                .map(UserResponseDto::new);
     }
 
     @PutMapping("/me")

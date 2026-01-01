@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Product, Category } from "../../../types/types";
+import { Product, Category, User } from "../../../types/types";
 import { PageResponse } from "../../../types/page";
 
 const API = "https://localhost:8081";
@@ -55,7 +55,7 @@ export async function getProductById(id: number): Promise<Product> {
 export async function getProductsByCategory(
   categoryId: number,
   page = 0,
-  size = 4
+  size = 20
 ): Promise<PageResponse<Product>> {
   try {
     const token = Cookies.get("token");
@@ -88,6 +88,7 @@ export async function getProductsByCategory(
     throw error;
   }
 }
+
 
 
 export async function getTotalStock(): Promise<number> {
@@ -153,3 +154,90 @@ export async function getTotalOrders(): Promise<number> {
   return data.totalOrders;
 }
 
+export async function getUsers(
+  page: number,
+  size: number,
+  sortField: "firstName" | "email" | "age" | "gender" | "createdAt",
+  sortOrder: "asc" | "desc"
+) {
+  const token = Cookies.get("token");
+  if (!token) throw new Error("No token");
+
+  const url = `${API}/users?page=${page}&size=${size}&sortBy=${sortField}&direction=${sortOrder}`;
+
+  console.log("Fetching users:", url);
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Backend error:", errorText);
+    throw new Error(errorText);
+  }
+
+  return res.json();
+}
+
+const getToken = () => Cookies.get("token") || "";
+
+export async function createCategory(category: { name: string; description?: string }) {
+  const res = await fetch("https://localhost:8081/categories", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`, // <-- call the function
+    },
+    body: JSON.stringify(category),
+  });
+
+  if (!res.ok) throw new Error("Failed to create category");
+  return res.json();
+}
+
+export async function updateCategory(id: number, category: Category) {
+  const res = await fetch(`${API}/categories/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(category),
+  });
+  if (!res.ok) throw new Error("Failed to update category");
+  return res.json();
+}
+
+export async function deleteCategory(id: number) {
+  const res = await fetch(`https://localhost:8081/categories/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  if (!res.ok) {
+    // parse backend error message
+    const errorData = await res.json();
+    throw errorData; // this contains { status, message, timestamp }
+  }
+
+  return true;
+}
+export const toggleUserStatus = async (id: number, enabled: boolean) => {
+  const token = Cookies.get("token");
+  const res = await fetch(`https://localhost:8081/users/${id}/status?enabled=${enabled}`, {
+    method: "PUT", // must match backend
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return;
+};

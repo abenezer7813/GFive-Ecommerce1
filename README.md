@@ -233,18 +233,6 @@ your-project/
 
 ---
 
-## 👥 GitHub Collaboration
 
-* Backend and frontend maintained in separate folders
-* Clean, meaningful Git commits
-* Contributions tracked via GitHub commit history
-
----
-
-## Notes
-
-* Backend: Use `application.properties` (IntelliJ compatible)
-* Frontend: Use `.env.local` with `NEXT_PUBLIC_` prefix
-* Do **not** commit secrets to GitHub
 
 

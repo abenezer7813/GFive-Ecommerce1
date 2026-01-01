@@ -14,6 +14,7 @@ export type Category = {
 };
 
 export type Product = {
+  createdAt: string | number | Date;
   id: number;
   name: string;
   description: string;
@@ -21,6 +22,27 @@ export type Product = {
   categoryId: number;
   imageUrl: string;
   stockQuantity: number; // <-- add this
+};
+
+export type Productfor = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  imageUrl: string;
+  stockQuantity: number; // <-- add this
+};
+
+export type ProductWithDate = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  imageUrl: string;
+  stockQuantity: number; // <-- add this
+  createdAt: string;
 };
 
 
@@ -32,4 +54,22 @@ export type AddProduct = {
   stockQuantity: number
   categoryId: number;
   imageUrl: string;
+};
+
+export type User = {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  age: number | null;
+  gender: string | null;
+  roles: string[];
+};
+
+export type OrderSummary = {
+  id: number;
+  userName: string;
+  totalPrice: number;
+  status: string;
+  createdAt?: string;
 };

@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { FaShoppingCart, FaPaperPlane, FaTrash, FaEdit } from "react-icons/fa";
 import Similaritems from "./Similaritems";
-import { Product } from "../../../../types/types";
+import { Productfor } from "../../../../types/types";
 import { useCart } from "@/Context/page";
 import { useRouter } from "next/navigation";
 
@@ -17,13 +17,13 @@ export default function ProductDetail({ params }: Props) {
   const productId = Number(resolvedParams.id);
   const router = useRouter();
 
-  const [product, setProduct] = useState<Product | null>(null);
-  const [similar, setSimilar] = useState<Product[]>([]);
+  const [product, setProduct] = useState<Productfor | null>(null);
+  const [similar, setSimilar] = useState<Productfor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState<Omit<Product, "id"> | null>(null);
+  const [editForm, setEditForm] = useState<Omit<Productfor, "id"> | null>(null);
   const [actionMessage, setActionMessage] = useState("");
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function ProductDetail({ params }: Props) {
           cache: "no-store",
         });
         if (!res.ok) throw new Error("Product not found");
-        const data: Product = await res.json();
+        const data: Productfor = await res.json();
         setProduct(data);
         setEditForm({
           name: data.name,
@@ -59,7 +59,7 @@ export default function ProductDetail({ params }: Props) {
         );
         if (!simRes.ok) throw new Error("Failed to fetch similar products");
         const simDataJson = await simRes.json();
-        const simArray: Product[] = Array.isArray(simDataJson) ? simDataJson : simDataJson.content || [];
+        const simArray: Productfor[] = Array.isArray(simDataJson) ? simDataJson : simDataJson.content || [];
         setSimilar(simArray.filter(p => p.id !== data.id));
 
       } catch (err: any) {
@@ -119,7 +119,7 @@ export default function ProductDetail({ params }: Props) {
         body: JSON.stringify(editForm),
       });
       if (!res.ok) throw new Error("Failed to update product");
-      const updated: Product = await res.json();
+      const updated: Productfor = await res.json();
       setProduct(updated);
       setIsEditing(false);
       setActionMessage("Product updated successfully!");
@@ -129,13 +129,13 @@ export default function ProductDetail({ params }: Props) {
   };
 
   return (
-    <div className="mt-16  bg-gray-50 min-h-screen">
+    <div className="pmt-16  bg-gray-50 min-h-screen">
       {/* Action Message */}
       {actionMessage && <div className="text-center bg-green-200 text-green-900 py-2">{actionMessage}</div>}
 
       {/* Product Hero Section */}
-      <div className="relative flex items-center overflow-hidden py-16">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 w-full">
+      <div className="relative flex items-center overflow-hidden py-16 px-40 ">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-30 w-full">
           {/* Product Image */}
           <div className="-ml-20 mt-5 relative transform -rotate-6 hover:rotate-0 transition-transform duration-500 ease-in-out">
             {product.imageUrl ? (
@@ -147,7 +147,7 @@ export default function ProductDetail({ params }: Props) {
           </div>
 
           {/* Product Info */}
-          <div className="lg:w-1/3 text-black">
+          <div className="lg:w-1/3 text-black ">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-gray-900">{product.name}</h1>
             <p className="text-gray-700 text-lg leading-relaxed mb-8 max-w-md">{product.description}</p>
 
@@ -183,7 +183,17 @@ export default function ProductDetail({ params }: Props) {
             <input name="name" value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} placeholder="Name" className="border px-4 py-2 rounded-lg" required />
             <textarea name="description" value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} placeholder="Description" className="border px-4 py-2 rounded-lg" required />
             <input type="number" name="price" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: Number(e.target.value)})} placeholder="Price" className="border px-4 py-2 rounded-lg" required />
-            <input type="number" name="stockQuantity" value={editForm.stockQuantity} onChange={(e) => setEditForm({...editForm, stockQuantity: Number(e.target.value)})} placeholder="Stock Quantity" className="border px-4 py-2 rounded-lg" required />
+<input
+  type="number"
+  name="stockQuantity"
+  value={editForm.stockQuantity || 0} // fallback
+  onChange={(e) =>
+    setEditForm({ ...editForm, stockQuantity: Number(e.target.value) })
+  }
+  placeholder="Stock Quantity"
+  className="border px-4 py-2 rounded-lg"
+  required
+/>
             <input type="number" name="categoryId" value={editForm.categoryId} onChange={(e) => setEditForm({...editForm, categoryId: Number(e.target.value)})} placeholder="Category ID" className="border px-4 py-2 rounded-lg" required />
             <input name="imageUrl" value={editForm.imageUrl} onChange={(e) => setEditForm({...editForm, imageUrl: e.target.value})} placeholder="Image URL" className="border px-4 py-2 rounded-lg" required />
             <div className="flex gap-3 mt-4">
@@ -195,11 +205,7 @@ export default function ProductDetail({ params }: Props) {
       )}
 
       {/* Similar Items */}
-      <div className="flex">
-        <div className="max-w-7xl mx-10">
-          {similar.length > 0 && <Similaritems products={similar} />}
-        </div>
-      </div>
+      
     </div>
   );
 }
