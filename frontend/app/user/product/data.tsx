@@ -3,13 +3,14 @@ import { Product, Category, User } from "../../../types/types";
 import { PageResponse } from "../../../types/page";
 
 const API = "https://localhost:8081";
+  const token = Cookies.get("token");
+
 
 // PRODUCTS
 export async function getProducts(
   page = 0,
   size = 10
 ): Promise<PageResponse<Product>> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/api/products?page=${page}&size=${size}&`,
     {
@@ -24,7 +25,6 @@ export async function getProducts(
 }
 
 export async function getCategories(page = 0, size = 10): Promise<PageResponse<Category>> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/categories?page=${page}&size=${size}`, {
     headers: {
@@ -38,7 +38,6 @@ export async function getCategories(page = 0, size = 10): Promise<PageResponse<C
 }
 // SINGLE PRODUCT
 export async function getProductById(id: number): Promise<Product> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/api/products/${id}`, {
     headers: {
@@ -58,7 +57,6 @@ export async function getProductsByCategory(
   size = 20
 ): Promise<PageResponse<Product>> {
   try {
-    const token = Cookies.get("token");
     console.log("Fetching products for category:", categoryId);
     
     const url = `${API}/api/products?categoryId=${categoryId}&page=${page}&size=${size}`;
@@ -92,7 +90,6 @@ export async function getProductsByCategory(
 
 
 export async function getTotalStock(): Promise<number> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/api/dashboard/total-stock`, {
     headers: {
@@ -114,7 +111,6 @@ export async function getTotalStock(): Promise<number> {
 }
 
 export async function getTotalUsers(): Promise<number> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/users?page=0&size=1`, {
     headers: {
@@ -135,7 +131,6 @@ export async function getTotalUsers(): Promise<number> {
 }
 
 export async function getTotalOrders(): Promise<number> {
-  const token = Cookies.get("token");
 
   const res = await fetch(`${API}/api/orders/total-orders`, {
     headers: {
@@ -160,7 +155,6 @@ export async function getUsers(
   sortField: "firstName" | "email" | "age" | "gender" | "createdAt",
   sortOrder: "asc" | "desc"
 ) {
-  const token = Cookies.get("token");
   if (!token) throw new Error("No token");
 
   const url = `${API}/users?page=${page}&size=${size}&sortBy=${sortField}&direction=${sortOrder}`;

@@ -69,51 +69,54 @@ export default function UsersPage() {
               <th className="p-4">Date Created</th>
             </tr>
           </thead>
-          <tbody>
-            {loading
-              ? Array.from({ length: 5 }).map((_, idx) => (
-                  <tr key={idx} className="h-16">
-                    {Array.from({ length: 7 }).map((_, i) => (
-                      <td key={i} className="p-4">
-                        <div className="h-4 bg-gray-300 rounded animate-pulse"></div>
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              : users.map((u) => (
-                  <tr key={u.id} className="h-16 hover:bg-gray-50">
-                    <td className="p-4 font-medium">
-                      {u.firstName} {u.lastName}
-                    </td>
-                    <td className="p-4">{u.email}</td>
-                    <td className="p-4 capitalize">{u.gender ?? "—"}</td>
-                    <td className="p-4">{u.age ?? "—"}</td>
-                    <td className="p-4">
-                      <span className="px-3 py-1 text-xs font-semibold bg-black text-white rounded-full">
-                        {u.roles && u.roles.length > 0 ? u.roles[0] : "—"}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <button
-                        disabled={togglingUserId === u.id}
-                        onClick={() => handleToggleUser(u)}
-                        className={`px-3 py-1 rounded-full text-white ${
-                          u.enabled ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
-                        }`}
-                      >
-                        {togglingUserId === u.id
-                          ? "Updating..."
-                          : u.enabled
-                          ? "Enabled"
-                          : "Disabled"}
-                      </button>
-                    </td>
-                    <td className="p-4">
-                      {u.createdAt ? new Date(u.createdAt).toLocaleString() : "—"}
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
+         <tbody>
+  {loading
+    ? Array.from({ length: 5 }).map((_, idx) => (
+        <tr key={idx} className="h-16">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <td key={i} className="p-4">
+              <div className="h-4 bg-gray-300 rounded animate-pulse"></div>
+            </td>
+          ))}
+        </tr>
+      ))
+    : users
+        .filter((u) => !u.roles?.includes("ROLE_ADMIN")) // <-- filter out admin
+        .map((u) => (
+          <tr key={u.id} className="h-16 hover:bg-gray-50">
+            <td className="p-4 font-medium">
+              {u.firstName} {u.lastName}
+            </td>
+            <td className="p-4">{u.email}</td>
+            <td className="p-4 capitalize">{u.gender ?? "—"}</td>
+            <td className="p-4">{u.age ?? "—"}</td>
+            <td className="p-4">
+              <span className="px-3 py-1 text-xs font-semibold bg-black text-white rounded-full">
+                {u.roles && u.roles.length > 0 ? u.roles[0] : "—"}
+              </span>
+            </td>
+            <td className="p-4">
+              <button
+                disabled={togglingUserId === u.id}
+                onClick={() => handleToggleUser(u)}
+                className={`px-3 py-1 rounded-full text-white ${
+                  u.enabled ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
+                }`}
+              >
+                {togglingUserId === u.id
+                  ? "Updating..."
+                  : u.enabled
+                  ? "Enabled"
+                  : "Disabled"}
+              </button>
+            </td>
+            <td className="p-4">
+              {u.createdAt ? new Date(u.createdAt).toLocaleString() : "—"}
+            </td>
+          </tr>
+        ))}
+</tbody>
+
         </table>
 
         {/* Pagination */}

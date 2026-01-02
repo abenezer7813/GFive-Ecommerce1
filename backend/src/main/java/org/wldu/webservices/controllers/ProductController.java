@@ -50,7 +50,7 @@ public class ProductController {
         Product product = productService.createProduct(request);
         return ResponseEntity.ok(new ProductResponseDTO());
     }
-    // ✅ ADMIN only
+
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
@@ -58,7 +58,6 @@ public class ProductController {
        return ResponseEntity.ok(new ProductResponseDTO(product));
     }
 
-    // ✅ ADMIN only
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable Long id) {
@@ -87,7 +86,6 @@ public class ProductController {
     }
 
 
-    // ✅ USER only
     @PostMapping("/{id}/buy")
     @PreAuthorize("hasRole('USER')")
     public String buyProduct(@PathVariable Long id) {
@@ -95,7 +93,6 @@ public class ProductController {
         return "Purchase successful";
     }
 
-    // ✅ ADMIN only
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponseDTO> updateProduct(

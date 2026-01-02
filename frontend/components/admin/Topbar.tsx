@@ -64,39 +64,7 @@ export default function Topbar({ setSidebarOpen }: TopbarProps) {
 
       {/* Search */}
      <div className="">
-                <Search value={query} onChange={setQuery} />
-                {query && (
-                  <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto">
-                    {filteredProducts.length > 0 ? (
-                      filteredProducts.slice(0, 3).map((product) => (
-                        <Link
-                          key={product.id}
-                          href={`/productsDetail/${product.id}`}
-                          className="flex items-center gap-3 p-3 hover:bg-gray-100"
-                          onClick={() => { setQuery(""); setIsMenuOpen(false); }}
-                        >
-                          <img
-                            src={product.imageUrl}
-                            alt={product.name}
-                            className="w-8 h-8 rounded-md object-cover"
-                          />
-                          <div>
-                            <p className="text-xs font-semibold line-clamp-1">
-                              {product.name}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {product.price} ETB
-                            </p>
-                          </div>
-                        </Link>
-                      ))
-                    ) : (
-                      <p className="p-3 text-xs text-gray-500">
-                        No products found
-                      </p>
-                    )}
-                  </div>
-                )}
+               
               </div>
 
       {/* Greeting */}

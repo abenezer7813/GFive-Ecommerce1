@@ -1,10 +1,21 @@
-import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   images: {
-    domains: ["cdn.dummyjson.com"], // whitelist the host
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.dummyjson.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
-};
+}
 
-export default nextConfig;
+module.exports = nextConfig

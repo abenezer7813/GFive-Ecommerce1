@@ -9,15 +9,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold mb-4">Company</h4>
             <ul>
-              <li><Link href="/about" className="hover:underline">About Us</Link></li>
-              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
-              <li><Link href="/careers" className="hover:underline">Careers</Link></li>
+              <li><Link href="/user/about" className="hover:underline">About Us</Link></li>
+              <li><Link href="/user/contact" className="hover:underline">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold mb-4">Support</h4>
             <ul>
-              <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
               <li><Link href="/returns" className="hover:underline">Returns</Link></li>
               <li><Link href="/shipping" className="hover:underline">Shipping Info</Link></li>
             </ul>
@@ -43,7 +41,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center mt-8 border-t border-gray-700 pt-4">
-          <p>&copy; 2023 Your E-Commerce Site. All rights reserved.</p>
+          <p>&copy; 2025 kanzy's. All rights reserved.</p>
         </div>
       </footer></div>
   )

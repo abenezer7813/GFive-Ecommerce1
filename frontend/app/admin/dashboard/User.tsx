@@ -52,39 +52,42 @@ const LatestUsers = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colSpan={5}>
-                <hr className="border-gray-400 " />
-              </td>
-            </tr>
-            {isLoading ? (
-              Array.from({ length: 10 }).map((_, i) => (
-                <tr key={i} className="shadow-sm h-13">
-                  <td className="p-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                  </td>
-                  <td className="p-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                  </td>
-                  <td className="p-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                  </td>
-                  <td className="p-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              users.map((u: UserType) => (
-                <tr key={u.id} className="shadow-sm h-13 hover:bg-gray-50">
-                  <td className="p-2 font-medium">{u.firstName} {u.lastName}</td>
-                  <td className="p-2">{u.email}</td>
-                  <td className="p-2 capitalize">{u.gender ?? "—"}</td>
-                  <td className="p-2">{formatDate(u.createdAt)}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
+  <tr>
+    <td colSpan={5}>
+      <hr className="border-gray-400 " />
+    </td>
+  </tr>
+  {isLoading
+    ? Array.from({ length: 10 }).map((_, i) => (
+        <tr key={i} className="shadow-sm h-13">
+          <td className="p-2">
+            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td className="p-2">
+            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td className="p-2">
+            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td className="p-2">
+            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+        </tr>
+      ))
+    : users
+        .filter((u) => !u.roles?.includes("ROLE_ADMIN")) // <-- filter out admins
+        .map((u: UserType) => (
+          <tr key={u.id} className="shadow-sm h-13 hover:bg-gray-50">
+            <td className="p-2 font-medium">
+              {u.firstName} {u.lastName}
+            </td>
+            <td className="p-2">{u.email}</td>
+            <td className="p-2 capitalize">{u.gender ?? "—"}</td>
+            <td className="p-2">{formatDate(u.createdAt)}</td>
+          </tr>
+        ))}
+</tbody>
+
         </table>
       </div>
     </div>

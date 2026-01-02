@@ -5,11 +5,10 @@ import NavBar from "@/components/NavBar";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen mt-10 bg-white">
       {/* 🧭 HEADER NAVIGATION */}
    <NavBar/>
 
-      {/* 📞 CONTACT SECTION */}
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-black">Contact Us</h1>

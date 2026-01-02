@@ -40,7 +40,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-3 right-3 z-50 mx-25 bg-white shadow-xl border-b rounded-b-2xl border-gray-200">
+    <nav className="fixed top-0 left-3 right-3 z-50 mx- bg-white shadow-sm border-b rounded-b-2xl border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -153,7 +153,7 @@ const NavBar = () => {
                     <span className="text-gray-700 font-medium">Profile</span>
                   </Link>
                   <Link
-                    href="/orders"
+                    href="/user/orders"
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors duration-200"
                     onClick={() => setIsProfileOpen(false)}
                   >
