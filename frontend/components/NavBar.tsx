@@ -40,14 +40,14 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-3 right-3 z-50 mx- bg-white shadow-sm border-b rounded-b-2xl border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50  bg-white shadow-sm border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="">
             <div className="flex-shrink-0">
             
-             <h1 className="font-bold text-2xl">
+             <h1 className="font-bold text-black text-2xl">
               Kanzy's
              </h1>
              <h1 className="text-gray-500 text-sm">

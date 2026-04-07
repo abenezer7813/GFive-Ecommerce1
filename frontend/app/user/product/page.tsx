@@ -43,12 +43,12 @@ useEffect(() => {
 
 
   return (
-    <div className="min-h-screen bg-gray-0">
+    <div className="min-h-screen text-black ">
       <NavBar />
       {/* Hero Section */}
       
       {/* Products Section */}
-      <div className="mt-20  p-5">
+      <div className="mt-20 bg-white p-5">
         <div className="min-h-screen bg-white flex">
           <Categories
             categories={categories}

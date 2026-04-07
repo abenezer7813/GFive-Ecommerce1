@@ -70,7 +70,7 @@ export default function ProductDetail({ params }: Props) {
     return <div className="min-h-screen flex items-center justify-center">{error || "Product not found"}</div>;
 
   return (
-    <div className="bg-gray-50 pt-30 min-h-screen px-6 py-16">
+    <div className="bg-gray-50  pt-30 min-h-screen px-6 py-16">
       {/* PRODUCT HERO */}
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
         {/* IMAGE */}
@@ -93,7 +93,7 @@ export default function ProductDetail({ params }: Props) {
 
         {/* PRODUCT INFO */}
         <div className="lg:w-1/2">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{product.name}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">{product.name}</h1>
           <p className="text-gray-700 text-lg mb-6">{product.description}</p>
 
           <div className="flex items-baseline mb-8">
@@ -113,7 +113,7 @@ export default function ProductDetail({ params }: Props) {
       {/* SIMILAR PRODUCTS */}
       {similar.length > 0 && (
         <section className="max-w-7xl mx-auto mt-20">
-          <h2 className="text-3xl font-bold mb-8">Similar Products</h2>
+          <h2 className="text-3xl font-bold mb-8 text-black">Similar Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {similar.map(item => (
               <div
@@ -134,7 +134,7 @@ export default function ProductDetail({ params }: Props) {
                 )}
 
                 <div className="p-4">
-                  <h3 className="font-semibold truncate">{item.name}</h3>
+                  <h3 className="font-semibold truncate text-black">{item.name}</h3>
                   <p className="text-sm text-gray-600 mt-2">ETB {item.price}</p>
                   <button
                     onClick={(e) => { e.stopPropagation(); addToCart(item); }}

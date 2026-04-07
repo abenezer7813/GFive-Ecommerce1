@@ -92,7 +92,7 @@ export default function Categories({ selectedCategoryId, onSelect }: Props) {
 };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+    <div className="min-h-screen  bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center md:text-left">Categories Management</h1>
 
@@ -186,7 +186,7 @@ export default function Categories({ selectedCategoryId, onSelect }: Props) {
           </div>
 
           {/* Add Category Form */}
-          <div className="sticky flex-1 bg-white p-6 rounded-xl shadow-lg">
+          <div className="sticky flex-1 text-black bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <FaPlus /> Add New Category
             </h2>

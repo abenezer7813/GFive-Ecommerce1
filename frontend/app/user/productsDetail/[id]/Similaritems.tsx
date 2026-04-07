@@ -58,7 +58,7 @@ export default function Similaritems({ products }: Props) {
 />
 
 
-                <h3 className="mt-2 font-semibold line-clamp-1">
+                <h3 className="mt-2 text-black font-semibold line-clamp-1">
                   {item.name}
                 </h3>
 

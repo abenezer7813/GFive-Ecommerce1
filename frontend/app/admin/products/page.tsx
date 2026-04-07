@@ -45,7 +45,7 @@ const Pagination = ({
   );
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-8">
+    <div className="flex  justify-center items-center gap-2 mt-8">
       <button
         disabled={page === 0}
         onClick={() => onPageChange(page - 1)}
@@ -174,7 +174,7 @@ export default function ProductsPage() {
   return (
     <div>
       {/* 🔝 SORT BAR */}
-      <div className="sticky top-0 z-50 bg-white">
+      <div className="sticky text-black top-0 z-50 bg-white">
         <SortBy
           field={sortField}
           order={sortOrder}
@@ -186,7 +186,7 @@ export default function ProductsPage() {
       </div>
 
       {/* 🧱 PRODUCTS */}
-      <div className="p-6 min-h-screen flex flex-col justify-between">
+      <div className="p-6 text-black min-h-screen flex flex-col justify-between">
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {loading
             ? // Show skeletons while loading

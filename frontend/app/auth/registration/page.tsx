@@ -157,7 +157,7 @@ export default function Registration() {
           </div>
 
           {/* Form (Reduced gaps) */}
-          <form className="flex flex-col gap-3 w-full max-w-sm" onSubmit={submitHandle}>
+          <form className="flex flex-col text-black gap-3 w-full max-w-sm" onSubmit={submitHandle}>
             <input
               className={inputClass}
               placeholder="First Name"

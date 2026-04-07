@@ -44,7 +44,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen ">
+    <div className="p-4 text-black bg-gray-50 min-h-screen ">
       <Toolbar/>
      
       {/* Stats cards */}

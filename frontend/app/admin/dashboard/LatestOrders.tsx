@@ -87,7 +87,7 @@ export default function LatestOrders() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
+    <div className=" text-black bg-white shadow rounded-lg p-4">
       <h2 className="text-xl font-bold mb-4">Recent Orders</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left ">

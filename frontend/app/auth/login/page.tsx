@@ -136,7 +136,7 @@ export default function Login() {
           </div>
 
           {/* Form */}
-          <form className="flex flex-col gap-4 w-full max-w-sm" onSubmit={submitHandle}>
+          <form className="flex flex-col text-black  gap-4 w-full max-w-sm" onSubmit={submitHandle}>
             <input
               className={inputClass}
               placeholder="Email"

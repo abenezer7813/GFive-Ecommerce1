@@ -48,7 +48,7 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-black">
       <UserToolbar
         field={sortField}
         order={sortOrder}
